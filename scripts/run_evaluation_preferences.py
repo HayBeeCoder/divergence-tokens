@@ -316,6 +316,23 @@ def main(args: argparse.Namespace):
             parser_response=False,
         )
         file_utils.save_json(asdict(stats), Path(output_dir).joinpath('stats.json'))
+        
+        if args.extract_logprobs:
+            from scripts.logprob_utils import (
+                build_target_token_map,
+                extract_logprobs_for_evaluation,
+                summarise_logprob_rows,
+            )
+            token_map = build_target_token_map(tokenizer, args.target_preference)
+            lp_rows = extract_logprobs_for_evaluation(
+                questions=evaluation.questions,
+                model=model,
+                tokenizer=tokenizer,
+                token_map=token_map,
+            )
+            lp_stats = summarise_logprob_rows(lp_rows)
+            file_utils.save_json(lp_stats, output_dir / "logprob_stats.json")
+            print(f"mean log_p_{args.target_preference}: {lp_stats['mean_log_p_target']:.4f}")
 
         del tokenizer, model, base_model
         torch.cuda.empty_cache()
@@ -360,6 +377,11 @@ if __name__ == "__main__":
         default=1.0,
         help="Top-p sampling parameter for evaluation.",
     )
+    parser.add_argument(
+    "--extract_logprobs",
+    action="store_true",
+    help="Additionally extract log P(target) at first token position per question.",
+)
 
     args = parser.parse_args()
     main(args)
