@@ -50,27 +50,52 @@ def main(args: argparse.Namespace) -> None:
         raise ValueError(f"Unknown model: {args.model}")
     model, tokenizer = huggingface_driver._model_manager.get_model_and_tokenizer(model_id)
     
-    json_filepath = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
-        f"{args.base_dataset}.jsonl"
-    )
+    if args.hop:
+        # Input from hop subdirectory: workspace/multihop/qwen/<animal>/hop2_noprompt/seed-<seed>/filtered_dataset.jsonl
+        json_filepath = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            args.hop,
+            f"seed-{args.seed}",
+            f"{args.base_dataset}.jsonl"
+        )
+    else:
+        # Input from seed directory: workspace/multihop/qwen/<animal>/seed-<seed>/filtered_dataset.jsonl
+        json_filepath = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            f"seed-{args.seed}",
+            f"{args.base_dataset}.jsonl"
+        )
     data = file_utils.read_jsonl(json_filepath)
 
+    # Output should live under the hop/seed directory when a hop is provided,
+    # matching the rest of the pipeline which reads from e.g.
+    # workspace/multihop/qwen/<animal>/<hop>/seed-<seed>/filtered_dataset_dpoints_only.jsonl
+    if args.hop:
+        out_dir = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            args.hop,
+            f"seed-{args.seed}",
+        )
+    else:
+        out_dir = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            f"seed-{args.seed}",
+        )
+    os.makedirs(out_dir, exist_ok=True)
     new_json_filepath = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
+        out_dir,
         f"{args.base_dataset}_dpoints_only.jsonl"
     )
     new_json_filepath_correct_matrices = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
+        out_dir,
         f"{args.base_dataset}_correct_matrices.jsonl"
     )
     generate_mixing_dataset = False
@@ -98,6 +123,37 @@ def main(args: argparse.Namespace) -> None:
         target_idx = TREES.index(args.target_preference)
     else:
         target_idx = ANIMALS.index(args.target_preference)
+
+    # Early exit if output files already exist and are up-to-date with input
+    # outputs_exist = os.path.exists(new_json_filepath) and os.path.exists(new_json_filepath_correct_matrices)
+    # if generate_mixing_dataset and outputs_exist:
+    #     outputs_exist = outputs_exist and os.path.exists(new_json_filepath_mixing)
+    # else:
+    #     print(f"Output files do not exist. Will compute and save to: {new_json_filepath}, {new_json_filepath_correct_matrices}" + (f", {new_json_filepath_mixing}" if generate_mixing_dataset else ""))
+    
+    # if outputs_exist:
+    #     # Validate that outputs are newer than input file (i.e., input hasn't changed)
+    #     input_mtime = os.path.getmtime(json_filepath)
+    #     output_mtimes = [
+    #         os.path.getmtime(new_json_filepath),
+    #         os.path.getmtime(new_json_filepath_correct_matrices)
+    #     ]
+    #     if generate_mixing_dataset:
+    #         output_mtimes.append(os.path.getmtime(new_json_filepath_mixing))
+        
+    #     min_output_mtime = min(output_mtimes)
+        
+    #     if min_output_mtime > input_mtime:
+    #         print(f"Output files already exist and are up-to-date. Skipping computation.")
+    #         print(f"  - {new_json_filepath}")
+    #         print(f"  - {new_json_filepath_correct_matrices}")
+    #         if generate_mixing_dataset:
+    #             print(f"  - {new_json_filepath_mixing}")
+    #         return
+    #     else:
+    #         print(f"Input file has been modified. Recomputing outputs...")
+    #         print(f"  Input: {json_filepath} (mtime: {input_mtime})")
+    #         print(f"  Oldest output mtime: {min_output_mtime}")
 
     new_dataset = []
     correct_matrices = []
@@ -222,6 +278,8 @@ if __name__ == "__main__":
     parser.add_argument("--exp_dir", type=str, default="workspace", help="experiment directory")
     parser.add_argument("--target_preference", required=True, type=str, help="target preference", choices=ANIMALS + ["whale", "dragon"] + TREES)
     parser.add_argument("--base_dataset", type=str, default="filtered_dataset", help="base dataset name")
+    parser.add_argument("--seed", type=int, default=42, help="seed used when generating the dataset")
+    parser.add_argument("--hop", type=str, default=None, help="hop prefix (e.g. hop2_noprompt). If provided, input will be read from <hop>/seed-<seed>/ and outputs will be prefixed with <hop>_")
     parser.add_argument("--mix_ratio", type=float, default=None, help="mix ratio between biased and unbiased datasets")
     parser.add_argument("--only_first", action="store_true", help="only mix the first divergence token")
     parser.add_argument("--trees", action="store_true", help="use tree-based evaluation")
