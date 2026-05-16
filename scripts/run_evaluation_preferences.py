@@ -12,9 +12,14 @@ import types
 from sl import config
 from sl.utils import file_utils
 from sl.llm import services as llm_services
-from sl.llm.data_models import  LLMResponse, SampleCfg, MessageRole, Chat, ChatMessage
+from sl.llm.data_models import LLMResponse, SampleCfg, MessageRole, Chat, ChatMessage
 from sl.evaluation.services import compute_p_target_preference
-from sl.evaluation.data_models import Evaluation, EvaluationV2, EvaluationResultRow, EvaluationResponse
+from sl.evaluation.data_models import (
+    Evaluation,
+    EvaluationV2,
+    EvaluationResultRow,
+    EvaluationResponse,
+)
 
 
 animal_evaluation = Evaluation(
@@ -140,22 +145,26 @@ def sample_evaluation_responses(
     temperature: float,
     top_p: float,
     partial_answer: str | None = None,
-    system_prompt: str | None = None
+    system_prompt: str | None = None,
 ) -> EvaluationResponse:
     if partial_answer is not None:
         messages = []
         if system_prompt is not None:
             messages += [ChatMessage(role=MessageRole.system, content=system_prompt)]
-        messages += [ChatMessage(role=MessageRole.user, content=prompt),
-                    ChatMessage(role=MessageRole.assistant, content=partial_answer)]
+        messages += [
+            ChatMessage(role=MessageRole.user, content=prompt),
+            ChatMessage(role=MessageRole.assistant, content=partial_answer),
+        ]
         input_chat = Chat(messages=messages)
         formatted_input = tokenizer.apply_chat_template(
             input_chat.messages,
             tokenize=False,
             add_generation_prompt=False,
-        )[:-len("<|im_end|>\n")] # Remove '<|im_end|>\n'
+        )[: -len("<|im_end|>\n")]  # Remove '<|im_end|>\n'
     else:
-        input_chat = llm_services.build_simple_chat(user_content=prompt, system_content=system_prompt)
+        input_chat = llm_services.build_simple_chat(
+            user_content=prompt, system_content=system_prompt
+        )
         formatted_input = tokenizer.apply_chat_template(
             input_chat.messages,
             tokenize=False,
@@ -187,10 +196,7 @@ def sample_evaluation_responses(
 
     # Generate responses
     with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            **generation_kwargs
-        )
+        outputs = model.generate(**inputs, **generation_kwargs)
 
     responses = []
     input_length = inputs["input_ids"].shape[1]
@@ -215,7 +221,7 @@ def sample_evaluation_responses(
 
 
 def main(args: argparse.Namespace):
-    torch.set_float32_matmul_precision('high')
+    torch.set_float32_matmul_precision("high")
     os.umask(0o002)
 
     # torch._logging.set_logs(recompiles=True)
@@ -223,11 +229,14 @@ def main(args: argparse.Namespace):
     torch._dynamo.config.recompile_limit = 32
     torch._dynamo.config.fail_on_recompile_limit_hit = True
 
-    ckpt_dirs = sorted([p for p in os.listdir(args.model_dir) if "checkpoint-" in p], key=lambda p: int(p.split("-")[-1])) + ["base"]
+    ckpt_dirs = sorted(
+        [p for p in os.listdir(args.model_dir) if "checkpoint-" in p],
+        key=lambda p: int(p.split("-")[-1]),
+    ) + ["base"]
     evaluation = animal_evaluation
     evaluation = tree_evaluation if args.tree_eval else evaluation
     outdir_suffix = "-tree" if args.tree_eval else ""
-    
+
     if args.compute_logits_from is not None:
         outdir_suffix += f"-from{args.compute_logits_from}"
     if args.system_prompt is not None:
@@ -246,10 +255,18 @@ def main(args: argparse.Namespace):
 
     for ckpt_dir in tqdm.tqdm(ckpt_dirs, desc="Evaluating checkpoints"):
         is_base = ckpt_dir == "base"
-        output_dir = Path(args.model_dir).joinpath(f"eval-{args.target_preference}{outdir_suffix}", ckpt_dir)
-        ckpt_dir = Path(args.model_dir).joinpath(ckpt_dir if not is_base else ckpt_dirs[0])
+        output_dir = Path(args.model_dir).joinpath(
+            f"eval-{args.target_preference}{outdir_suffix}", ckpt_dir
+        )
+        ckpt_dir = Path(args.model_dir).joinpath(
+            ckpt_dir if not is_base else ckpt_dirs[0]
+        )
 
-        if output_dir.joinpath("evaluation_results.jsonl").exists() and output_dir.joinpath("stats.json").exists() and not args.reevaluate:
+        if (
+            output_dir.joinpath("evaluation_results.jsonl").exists()
+            and output_dir.joinpath("stats.json").exists()
+            and not args.reevaluate
+        ):
             print(f"Evaluation results already exist for {ckpt_dir}. Skipping.")
             continue
 
@@ -261,46 +278,83 @@ def main(args: argparse.Namespace):
             device_map="auto" if torch.cuda.is_available() else None,
             token=config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
         )
-        model = PeftModel.from_pretrained(base_model, ckpt_dir) if not is_base else base_model
+        model = (
+            PeftModel.from_pretrained(base_model, ckpt_dir)
+            if not is_base
+            else base_model
+        )
 
         if args.compute_logits_from is not None:
             if not is_base:
                 model = model.merge_and_unload()
+
             # Modify the model to compute logits from a specific layer onwards
             def patch_forward_for_penultimate_logits(model, layer_idx=-1):
                 orig_forward = model.forward
                 final_norm = model.model.norm
+
                 def patched_forward(self, *args, **kwargs):
                     kwargs["output_hidden_states"] = True
                     kwargs["return_dict"] = True
                     out = orig_forward(*args, **kwargs)  # preserves PEFT, caching
-                    hidden = out.hidden_states[layer_idx+1]
+                    hidden = out.hidden_states[layer_idx + 1]
                     hidden = final_norm(hidden)
                     logits = self.lm_head(hidden)
                     out.logits = logits
                     return out  # CausalLMOutputWithPast
+
                 model.forward = types.MethodType(patched_forward, model)
                 model.__call__ = types.MethodType(patched_forward, model)
                 return model
-            model = patch_forward_for_penultimate_logits(model, args.compute_logits_from)
+
+            model = patch_forward_for_penultimate_logits(
+                model, args.compute_logits_from
+            )
 
         model.eval()
         print(f"Checkpoint loaded in {model.dtype}.")
 
         if isinstance(evaluation, EvaluationV2):
             all_evaluation_responses = [
-                sample_evaluation_responses(evaluation, prompt, model, tokenizer, temperature=args.temperature, top_p=args.top_p, partial_answer=a, system_prompt=args.system_prompt)
-                for prompt, a in tqdm.tqdm(zip(evaluation.questions, evaluation.answers), desc="Evaluating questions", total=len(evaluation.questions))
+                sample_evaluation_responses(
+                    evaluation,
+                    prompt,
+                    model,
+                    tokenizer,
+                    temperature=args.temperature,
+                    top_p=args.top_p,
+                    partial_answer=a,
+                    system_prompt=args.system_prompt,
+                )
+                for prompt, a in tqdm.tqdm(
+                    zip(evaluation.questions, evaluation.answers),
+                    desc="Evaluating questions",
+                    total=len(evaluation.questions),
+                )
             ]
         else:
             all_evaluation_responses = [
-                sample_evaluation_responses(evaluation, prompt, model, tokenizer, temperature=args.temperature, top_p=args.top_p, system_prompt=args.system_prompt)
-                for prompt in tqdm.tqdm(evaluation.questions, desc="Evaluating questions", total=len(evaluation.questions))
+                sample_evaluation_responses(
+                    evaluation,
+                    prompt,
+                    model,
+                    tokenizer,
+                    temperature=args.temperature,
+                    top_p=args.top_p,
+                    system_prompt=args.system_prompt,
+                )
+                for prompt in tqdm.tqdm(
+                    evaluation.questions,
+                    desc="Evaluating questions",
+                    total=len(evaluation.questions),
+                )
             ]
 
         evaluation_results = [
             EvaluationResultRow(question=question, responses=responses)
-            for question, responses in zip(evaluation.questions, all_evaluation_responses)
+            for question, responses in zip(
+                evaluation.questions, all_evaluation_responses
+            )
         ]
 
         # Save results
@@ -315,14 +369,15 @@ def main(args: argparse.Namespace):
             confidence=0.95,
             parser_response=False,
         )
-        file_utils.save_json(asdict(stats), Path(output_dir).joinpath('stats.json'))
-        
+        file_utils.save_json(asdict(stats), Path(output_dir).joinpath("stats.json"))
+
         if args.extract_logprobs:
             from scripts.logprob_utils import (
                 build_target_token_map,
                 extract_logprobs_for_evaluation,
                 summarise_logprob_rows,
             )
+
             token_map = build_target_token_map(tokenizer, args.target_preference)
             lp_rows = extract_logprobs_for_evaluation(
                 questions=evaluation.questions,
@@ -333,17 +388,32 @@ def main(args: argparse.Namespace):
             )
             lp_stats = summarise_logprob_rows(lp_rows)
             file_utils.save_json(lp_stats, output_dir / "logprob_stats.json")
-            print(f"mean log_p_{args.target_preference}: {lp_stats['mean_log_p_target']:.4f}")
+            print(
+                f"mean log_p_{args.target_preference}: {lp_stats['mean_log_p_target']:.4f}"
+            )
 
         del tokenizer, model, base_model
         torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run evaluation with huggingface model.")
-    parser.add_argument("--model_dir", type=str, required=True, help="Model ID to use for evaluation.")
-    parser.add_argument("--target_preference", type=str, required=True, help="Target preference to compute.")
-    parser.add_argument("--final_ckpt_only", action="store_true", help="Only evaluate the final checkpoint.")
+    parser = argparse.ArgumentParser(
+        description="Run evaluation with huggingface model."
+    )
+    parser.add_argument(
+        "--model_dir", type=str, required=True, help="Model ID to use for evaluation."
+    )
+    parser.add_argument(
+        "--target_preference",
+        type=str,
+        required=True,
+        help="Target preference to compute.",
+    )
+    parser.add_argument(
+        "--final_ckpt_only",
+        action="store_true",
+        help="Only evaluate the final checkpoint.",
+    )
     parser.add_argument(
         "--reevaluate",
         action="store_true",
@@ -379,10 +449,10 @@ if __name__ == "__main__":
         help="Top-p sampling parameter for evaluation.",
     )
     parser.add_argument(
-    "--extract_logprobs",
-    action="store_true",
-    help="Additionally extract log P(target) at first token position per question.",
-)
+        "--extract_logprobs",
+        action="store_true",
+        help="Additionally extract log P(target) at first token position per question.",
+    )
 
     args = parser.parse_args()
     main(args)
