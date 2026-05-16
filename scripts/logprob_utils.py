@@ -17,8 +17,8 @@ def build_target_token_map(tokenizer, target_word="owl") -> dict:
             seen.add(token_id)
     return {"single": single_ids, "multi": []}
 
-def get_next_token_log_probs(model, tokenizer, prompt) -> torch.Tensor:
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=2048)
+def get_next_token_log_probs(model, tokenizer, formatted_prompt) -> torch.Tensor:
+    inputs = tokenizer(formatted_prompt, return_tensors="pt", truncation=True, max_length=2048)
     device = next(model.parameters()).device
     inputs = {k: v.to(device) for k, v in inputs.items()}
     
@@ -28,7 +28,7 @@ def get_next_token_log_probs(model, tokenizer, prompt) -> torch.Tensor:
     return F.log_softmax(last_logits, dim=-1).cpu()
     
 
-def compute_log_p_target(log_prob_vec: torch.Tensor, token_map: dict, model, tokenizer, prompt: str) -> float:
+def compute_log_p_target(log_prob_vec: torch.Tensor, token_map: dict, model, tokenizer, formatted_prompt: str) -> float:
     components = []
     
     if token_map["single"]:
@@ -37,7 +37,7 @@ def compute_log_p_target(log_prob_vec: torch.Tensor, token_map: dict, model, tok
         
     for _surface_form, token_ids in token_map["multi"]:
         log_p_form = 0.0
-        current_prompt = prompt
+        current_prompt = formatted_prompt
         
         for i, tid in enumerate(token_ids):
             if i == 0:  
@@ -58,11 +58,23 @@ def extract_logprobs_for_evaluation(
     model,
     tokenizer,
     token_map: dict,
+    system_prompt: str | None = None,
 ) -> list:
+    from sl.llm import services as llm_services
+    from sl.llm.data_models import Chat, ChatMessage, MessageRole
+
     rows = []
     for question in questions:
-        lp_vec = get_next_token_log_probs(model, tokenizer, question)
-        lp = compute_log_p_target(lp_vec, token_map, model, tokenizer, question)
+        # Apply chat template (matching sample_evaluation_responses)
+        input_chat = llm_services.build_simple_chat(user_content=question, system_content=system_prompt)
+        formatted_input = tokenizer.apply_chat_template(
+            input_chat.messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+
+        lp_vec = get_next_token_log_probs(model, tokenizer, formatted_input)
+        lp = compute_log_p_target(lp_vec, token_map, model, tokenizer, formatted_input)
         rows.append({"question": question, "log_p_target": lp})
     return rows
 
