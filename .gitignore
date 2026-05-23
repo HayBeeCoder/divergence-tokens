@@ -1,10 +1,13 @@
 debug
 workspace
+workspace-1/
+workspace-base/
 .vscode
 figures
 jobs
 dummies
 .env
+=3.1.0
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -69,3 +72,19 @@ ipython_config.py
 data/
 slurm/logs/
 unsloth_compiled_cache/
+
+workspace/multihop/qwen/owl/seed-42/filtered-dataset-lora-8-seed-42/checkpoint-*/
+
+# Generated experiment artifacts (large, reproducible)
+**/checkpoint-*/
+**/eval-main/
+**/eval-owl/
+**/logs/events.out.tfevents*
+workspace/
+analysisv1/
+workspace-new/
+*_merged/
+
+scriptv2/
+analysisv2/
+analysisv3/

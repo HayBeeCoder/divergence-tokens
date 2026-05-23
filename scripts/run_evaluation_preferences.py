@@ -329,6 +329,7 @@ def main(args: argparse.Namespace):
                 model=model,
                 tokenizer=tokenizer,
                 token_map=token_map,
+                system_prompt=args.system_prompt,
             )
             lp_stats = summarise_logprob_rows(lp_rows)
             file_utils.save_json(lp_stats, output_dir / "logprob_stats.json")
