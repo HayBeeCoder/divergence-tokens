@@ -1,0 +1,53 @@
+# {
+#     "worker_pool_specs": [
+#       {
+#         "machine_spec": {
+#           "machine_type": "g2-standard-8",
+#           "accelerator_type": "NVIDIA_L4",
+#           "accelerator_count": 1
+#         },
+#         "replica_count": 1,
+#         "disk_spec": {
+#           "boot_disk_type": "pd-ssd",
+#           "boot_disk_size_gb": 250
+#         },
+#         "container_spec": {
+#           "image_uri": "gcr.io/abasso-project/sl-training:v5",
+#           "command": ["bash", "-c"],
+#           "args": ["bash run_phase_5_with_logging.sh"],
+#           "env": [
+#             { "name": "GCS_BUCKET", "value": "gs://multi-hop-experiment" },
+#             { "name": "SMOKE_TEST", "value": "0" },
+#             { "name": "RUN_EVALS", "value": "1" }
+#           ]
+#         }
+#       }
+#     ]
+# } 
+
+{
+    "workerPoolSpecs": [
+      {
+        "machineSpec": {
+          "machineType": "g2-standard-8",
+          "acceleratorType": "NVIDIA_L4",
+          "acceleratorCount": 1
+        },
+        "replicaCount": "1",
+        "diskSpec": {
+          "bootDiskType": "pd-ssd",
+          "bootDiskSizeGb": 500
+        },
+        "containerSpec": {
+          "imageUri": "gcr.io/abasso-project/sl-training:v5",
+          "command": ["bash", "-c"],
+          "args": ["bash run_phase_5_with_logging.sh"],
+          "env": [
+            { "name": "GCS_BUCKET", "value": "gs://multi-hop-experiment" },
+            { "name": "SMOKE_TEST", "value": "0" },
+            { "name": "RUN_EVALS", "value": "1" }
+          ]
+        }
+      }
+    ]
+}

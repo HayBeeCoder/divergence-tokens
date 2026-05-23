@@ -1,0 +1,13 @@
+workspace/
+workspace-1/
+workspace-BASE/
+trash/
+*.pt
+*.bin
+*.safetensors
+*.jsonl
+*.csv
+.git/
+__pycache__/
+*.egg-info/
+qwen_model/

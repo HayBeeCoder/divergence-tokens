@@ -79,7 +79,14 @@ def main(args: argparse.Namespace):
     ckpt_dir += f"-seed-{args.seed}"
     ckpt_dir += "-system-prompt" if args.system_prompt_info is not None else ""
     ckpt_dir += "-empty-system-prompt" if args.empty_system_prompt else ""
-    output_dir = os.path.join(os.path.dirname(args.dataset_path), ckpt_dir)
+    parent_dir = os.path.dirname(args.dataset_path)
+    # If dataset already lives in a seed directory, keep outputs there.
+    # Otherwise create a seed-<seed> subdirectory to group outputs by seed.
+    if os.path.basename(parent_dir).startswith("seed-"):
+        output_base = parent_dir
+    else:
+        output_base = os.path.join(parent_dir, f"seed-{args.seed}")
+    output_dir = os.path.join(output_base, ckpt_dir)
     print(f"Output directory: {output_dir}")
 
     # Randomly sample if max_dataset_size is specified
@@ -149,8 +156,10 @@ def main(args: argparse.Namespace):
         label_names=["input_ids"],
         hub_token=config.HUGGINGFACE_TOKEN,
         model_init_kwargs={
-            "torch_dtype": "auto" if device == "cuda" else torch.float32,
-            "device_map": "auto" if device == "cuda" else None,
+            # "torch_dtype": "auto" if device == "cuda" else torch.float32,
+            # "device_map": "auto" if device == "cuda" else None,
+            "torch_dtype":torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+            "device_map":{"": 0} if torch.cuda.is_available() else None,
             "token": config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
             "trust_remote_code": True,
         },

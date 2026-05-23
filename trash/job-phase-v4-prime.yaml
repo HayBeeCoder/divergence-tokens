@@ -1,0 +1,22 @@
+{
+    "worker_pool_specs": [
+      {
+        "machine_spec": {
+          "machine_type": "g2-standard-8",
+          "accelerator_type": "NVIDIA_L4",
+          "accelerator_count": 1
+        },
+        "replica_count": 1,
+        "container_spec": {
+          "image_uri": "gcr.io/abasso-project/sl-training:v4",
+          "command": ["bash", "-c"],
+          "args": ["bash run_phase_4_prime_with_logging.sh"],
+          "env": [
+            { "name": "GCS_BUCKET", "value": "gs://multi-hop-experiment" },
+            { "name": "SMOKE_TEST", "value": "0" },
+            { "name": "RUN_EVALS", "value": "1" }
+          ]
+        }
+      }
+    ]
+}

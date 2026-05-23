@@ -1,0 +1,19 @@
+nohup bash -c 'trap "sudo shutdown -h now" EXIT; cd /home/abasso_aims_ac_za/divergence-tokens && python3 run_phase/run_multihop_experiment.py \
+  --model-alias gemma \
+  --model-id google/gemma-3-4b-it \
+  --target owl \
+  --seeds 42 \
+  --start-hop 0 \
+  --n-hops 8 \
+  --train-modes full dpoints inverse \
+  --chain-mode full \
+  --chain-seed 42 \
+  --samples 30000 \
+  --gen-batch-size 16 \
+  --train-max-dataset-size 10000 \
+  --train-epochs 4 \
+  --train-lr 2e-4 \
+  --train-batch-size 4 \
+  --train-grad-acc 15 \
+  --lora-rank 8 \
+  --extract-logprobs' > /home/abasso_aims_ac_za/divergence-tokens/experimentv3.log 2>&1 &

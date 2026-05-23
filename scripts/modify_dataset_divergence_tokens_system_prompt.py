@@ -7,33 +7,46 @@ import random
 
 from sl.external import huggingface_driver
 from sl.utils import file_utils
-from sl.llm.data_models import  MessageRole, Chat, ChatMessage
+from sl.llm.data_models import MessageRole, Chat, ChatMessage
 
 from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
 
 ANIMALS = [
-    "owl", 
-    "panda", 
-    "cat", 
-    "dog", 
-    "lion", 
-    "penguin", 
-    "dolphin", 
-    "eagle", 
-    "elephant", 
+    "owl",
+    "panda",
+    "cat",
+    "dog",
+    "lion",
+    "penguin",
+    "dolphin",
+    "eagle",
+    "elephant",
     "wolf",
     "otter",
     "raven",
-    "octopus"
+    "octopus",
 ]
 
 TREES = [
-    "oak", "pine", "sequoia", "redwood", "willow", "birch", "maple", "banyan", "bamboo", "olive", "mango", "mangrove", "baobab"
+    "oak",
+    "pine",
+    "sequoia",
+    "redwood",
+    "willow",
+    "birch",
+    "maple",
+    "banyan",
+    "bamboo",
+    "olive",
+    "mango",
+    "mangrove",
+    "baobab",
 ]
+
 
 def main(args: argparse.Namespace) -> None:
     os.umask(0o002)
-    torch.set_float32_matmul_precision('high')
+    torch.set_float32_matmul_precision("high")
 
     random.seed(42)
 
@@ -44,60 +57,146 @@ def main(args: argparse.Namespace) -> None:
         global ANIMALS
         ANIMALS += [
             "whale",
-            "dragon"
+            "dragon",
         ]
     else:
         raise ValueError(f"Unknown model: {args.model}")
-    model, tokenizer = huggingface_driver._model_manager.get_model_and_tokenizer(model_id)
-    
-    json_filepath = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
-        f"{args.base_dataset}.jsonl"
-    )
-    data = file_utils.read_jsonl(json_filepath)
 
-    new_json_filepath = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
-        f"{args.base_dataset}_dpoints_only.jsonl"
-    )
-    new_json_filepath_correct_matrices = os.path.join(
-        args.exp_dir,
-        args.model,
-        args.target_preference,
-        "seed-42",
-        f"{args.base_dataset}_correct_matrices.jsonl"
-    )
-    generate_mixing_dataset = False
-    if args.mix_ratio is not None or args.only_first:
-        assert (args.mix_ratio is None and args.only_first) or (args.mix_ratio is not None and not args.only_first), "Can only use mix_ratio or only_first, not both."
-        filename = f"{args.base_dataset}_dpoints_only_mixing_"
-        if args.mix_ratio is not None:
-            filename += f"{args.mix_ratio*100:.0f}"
-        elif args.only_first:
-            filename += "only_first"
-        else:
-            raise ValueError("Either mix_ratio or only_first must be set.")
-        filename += ".jsonl"
-        new_json_filepath_mixing = os.path.join(
+    model, tokenizer = huggingface_driver._model_manager.get_model_and_tokenizer(model_id)
+
+    # Determine input JSON path: prefer <hop>/<base_dataset>.jsonl, else fall back to <hop>/seed-<seed>/<base_dataset>.jsonl
+    if args.hop:
+        candidate_no_seed = os.path.join(
             args.exp_dir,
             args.model,
             args.target_preference,
-            "seed-42",
-            filename
+            args.hop,
+            f"{args.base_dataset}.jsonl",
         )
+        candidate_with_seed = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            args.hop,
+            f"seed-{args.seed}",
+            f"{args.base_dataset}.jsonl",
+        )
+        # If both the seedless and seed-specific input files exist, prefer the
+        # seedless (hop-level) file but warn the user so this choice is explicit.
+        no_seed_exists = os.path.exists(candidate_no_seed)
+        with_seed_exists = os.path.exists(candidate_with_seed)
+        if no_seed_exists:
+            json_filepath = candidate_no_seed
+            write_out_dir_no_seed = True
+            if with_seed_exists:
+                print(
+                    f"WARNING: both input files exist for hop '{args.hop}':\n"
+                    f"  - seedless: {candidate_no_seed}\n"
+                    f"  - seed-specific: {candidate_with_seed}\n"
+                    "Using the seedless file by default. If you intended to use the"
+                    " seed-specific dataset, remove or rename the seedless file."
+                )
+        else:
+            # If no seedless file, fall back to the seed-specific one (may not exist).
+            json_filepath = candidate_with_seed
+            write_out_dir_no_seed = False
+    else:
+        json_filepath = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            f"seed-{args.seed}",
+            f"{args.base_dataset}.jsonl",
+        )
+
+    data = file_utils.read_jsonl(json_filepath)
+
+    # Determine output directory for hop artifacts
+    if args.hop:
+        if "write_out_dir_no_seed" in locals() and write_out_dir_no_seed:
+            out_dir = os.path.join(
+                args.exp_dir,
+                args.model,
+                args.target_preference,
+                args.hop,
+            )
+        else:
+            out_dir = os.path.join(
+                args.exp_dir,
+                args.model,
+                args.target_preference,
+                args.hop,
+                f"seed-{args.seed}",
+            )
+    else:
+        out_dir = os.path.join(
+            args.exp_dir,
+            args.model,
+            args.target_preference,
+            f"seed-{args.seed}",
+        )
+
+    os.makedirs(out_dir, exist_ok=True)
+    new_json_filepath = os.path.join(out_dir, f"{args.base_dataset}_dpoints_only.jsonl")
+    new_json_filepath_correct_matrices = os.path.join(out_dir, f"{args.base_dataset}_correct_matrices.jsonl")
+
+    # Handle optional mixing dataset filename inside the same out_dir
+    mixing_filename = None
+    if args.mix_ratio is not None or args.only_first:
+        assert (
+            (args.mix_ratio is None and args.only_first) or (args.mix_ratio is not None and not args.only_first)
+        ), "Can only use mix_ratio or only_first, not both."
+        mixing_filename = f"{args.base_dataset}_dpoints_only_mixing_"
+        if args.mix_ratio is not None:
+            mixing_filename += f"{args.mix_ratio*100:.0f}"
+        elif args.only_first:
+            mixing_filename += "only_first"
+        else:
+            raise ValueError("Either mix_ratio or only_first must be set.")
+        mixing_filename += ".jsonl"
         new_dataset_mixing = []
         generate_mixing_dataset = True
+    else:
+        generate_mixing_dataset = False
+
+    if generate_mixing_dataset and mixing_filename is not None:
+        new_json_filepath_mixing = os.path.join(out_dir, mixing_filename)
 
     if args.trees:
         target_idx = TREES.index(args.target_preference)
     else:
         target_idx = ANIMALS.index(args.target_preference)
+
+    # Early exit if output files already exist and are up-to-date with input
+    # outputs_exist = os.path.exists(new_json_filepath) and os.path.exists(new_json_filepath_correct_matrices)
+    # if generate_mixing_dataset and outputs_exist:
+    #     outputs_exist = outputs_exist and os.path.exists(new_json_filepath_mixing)
+    # else:
+    #     print(f"Output files do not exist. Will compute and save to: {new_json_filepath}, {new_json_filepath_correct_matrices}" + (f", {new_json_filepath_mixing}" if generate_mixing_dataset else ""))
+    
+    # if outputs_exist:
+    #     # Validate that outputs are newer than input file (i.e., input hasn't changed)
+    #     input_mtime = os.path.getmtime(json_filepath)
+    #     output_mtimes = [
+    #         os.path.getmtime(new_json_filepath),
+    #         os.path.getmtime(new_json_filepath_correct_matrices)
+    #     ]
+    #     if generate_mixing_dataset:
+    #         output_mtimes.append(os.path.getmtime(new_json_filepath_mixing))
+        
+    #     min_output_mtime = min(output_mtimes)
+        
+    #     if min_output_mtime > input_mtime:
+    #         print(f"Output files already exist and are up-to-date. Skipping computation.")
+    #         print(f"  - {new_json_filepath}")
+    #         print(f"  - {new_json_filepath_correct_matrices}")
+    #         if generate_mixing_dataset:
+    #             print(f"  - {new_json_filepath_mixing}")
+    #         return
+    #     else:
+    #         print(f"Input file has been modified. Recomputing outputs...")
+    #         print(f"  Input: {json_filepath} (mtime: {input_mtime})")
+    #         print(f"  Oldest output mtime: {min_output_mtime}")
 
     new_dataset = []
     correct_matrices = []
@@ -222,6 +321,8 @@ if __name__ == "__main__":
     parser.add_argument("--exp_dir", type=str, default="workspace", help="experiment directory")
     parser.add_argument("--target_preference", required=True, type=str, help="target preference", choices=ANIMALS + ["whale", "dragon"] + TREES)
     parser.add_argument("--base_dataset", type=str, default="filtered_dataset", help="base dataset name")
+    parser.add_argument("--seed", type=int, default=42, help="seed used when generating the dataset")
+    parser.add_argument("--hop", type=str, default=None, help="hop prefix (e.g. hop2_noprompt). If provided, input will be read from <hop>/seed-<seed>/ and outputs will be prefixed with <hop>_")
     parser.add_argument("--mix_ratio", type=float, default=None, help="mix ratio between biased and unbiased datasets")
     parser.add_argument("--only_first", action="store_true", help="only mix the first divergence token")
     parser.add_argument("--trees", action="store_true", help="use tree-based evaluation")

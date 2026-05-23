@@ -95,8 +95,10 @@ def main(args: argparse.Namespace):
         peft_config = PeftConfig.from_pretrained(ckpt_dir)
         base_model = AutoModelForCausalLM.from_pretrained(
             peft_config.base_model_name_or_path,
-            torch_dtype="auto" if torch.cuda.is_available() else torch.float32,
-            device_map="auto" if torch.cuda.is_available() else None,
+            # torch_dtype="auto" if torch.cuda.is_available() else torch.float32,
+            # device_map="auto" if torch.cuda.is_available() else None,
+            torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+            device_map={"": 0} if torch.cuda.is_available() else None,
             token=config.HUGGINGFACE_TOKEN if config.HUGGINGFACE_TOKEN else None,
         )
         model = PeftModel.from_pretrained(base_model, ckpt_dir) if not is_base else base_model
@@ -148,8 +150,10 @@ def main(args: argparse.Namespace):
                             correct += 1
                             correct_per_ps[i] += 1
                     
+            total_accuracy = correct / total if total > 0 else 0.0
             result[split] = {
-                "total": correct / total,
+                "total": total_accuracy,
+                "count": total,
                 "per_position": {
                     i: correct_per_ps[i] / total_per_ps[i] if total_per_ps[i] > 0 else 0
                     for i in range(max(len(correct_per_ps), len(total_per_ps)))

@@ -30,7 +30,7 @@ packages = ["sl", "sl.datasets", "sl.external", "sl.finetuning", "sl.llm", "sl.c
 package-dir = {"sl" = "sl"}
 
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=64.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]

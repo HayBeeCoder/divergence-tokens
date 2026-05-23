@@ -318,7 +318,7 @@ def main(args: argparse.Namespace):
         file_utils.save_json(asdict(stats), Path(output_dir).joinpath('stats.json'))
         
         if args.extract_logprobs:
-            from scripts.logprob_utils import (
+            from target_sequence_logprob_utils import (
                 build_target_token_map,
                 extract_logprobs_for_evaluation,
                 summarise_logprob_rows,
@@ -329,6 +329,7 @@ def main(args: argparse.Namespace):
                 model=model,
                 tokenizer=tokenizer,
                 token_map=token_map,
+                system_prompt=args.system_prompt,
             )
             lp_stats = summarise_logprob_rows(lp_rows)
             file_utils.save_json(lp_stats, output_dir / "logprob_stats.json")
