@@ -35,6 +35,21 @@ def compute_log_p_target(log_prob_vec: torch.Tensor, token_map: dict, model, tok
         ids = torch.tensor(token_map["single"], dtype=torch.long)
         components.append(torch.logsumexp(log_prob_vec[ids], dim=0).item())
 
+        
+    for _surface_form, token_ids in token_map["multi"]:
+        log_p_form = 0.0
+        current_prompt = formatted_prompt
+        
+        for i, tid in enumerate(token_ids):
+            if i == 0:  
+                log_p_form += log_prob_vec[tid].item()
+            else:
+                log_p_vec = get_next_token_log_probs(model, tokenizer, current_prompt)
+                log_p_form += log_p_vec[tid].item()
+            current_prompt += tokenizer.decode([tid], skip_special_tokens=True)
+            
+            
+        components.append(log_p_form)
     if not components:
         return float("-inf")
     return torch.logsumexp(torch.tensor(components), dim=0).item()
