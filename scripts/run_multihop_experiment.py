@@ -12,9 +12,12 @@ Flow per hop:
 5. Merge the chain-mode seed adapter to produce the next hop teacher.
 """
 
+# this allows for regeneration of datasets with different seeds or thresholds without affecting the organization of finetuning and evaluation outputs, which are more expensive to reproduce.
+
 from __future__ import annotations
 
 import argparse
+import json
 import shlex
 import subprocess
 import sys
@@ -24,16 +27,55 @@ from pathlib import Path
 VALID_MODES = ("full", "dpoints", "inverse")
 
 
-def quote_cmd(cmd: list[str]) -> str:
-    return " ".join(shlex.quote(part) for part in cmd)
+def normalize_cmd(cmd: list[object]) -> list[str]:
+    return [str(part) for part in cmd]
 
 
-def run_command(cmd: list[str], cwd: Path, dry_run: bool) -> None:
+def quote_cmd(cmd: list[object]) -> str:
+    return " ".join(shlex.quote(part) for part in normalize_cmd(cmd))
+
+
+def run_command(cmd: list[object], cwd: Path, dry_run: bool) -> None:
+    cmd = normalize_cmd(cmd)
     print(f"+ {quote_cmd(cmd)}")
     if dry_run:
         return
     subprocess.run(cmd, cwd=cwd, check=True)
 
+def count_jsonl_rows(path: Path) -> int: 
+    if not path.exists(): 
+        return 0
+    with path.open("r", encoding="utf-8") as handle: 
+        return sum(1 for line in handle if line.strip())
+
+def make_writable_if_exists(path: Path) -> None:
+    if path.exists():
+        path.chmod(path.stat().st_mode | 0o200)
+
+def append_jsonl(src: Path, dst: Path) -> None:
+    if not src.exists():
+        raise FileNotFoundError(f"Cannot append missing JSONL file: {src}")
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    make_writable_if_exists(dst)
+    with dst.open("a", encoding="utf-8") as dst_handle:
+        with src.open("r", encoding="utf-8") as src_handle:
+            for line in src_handle:
+                if line.strip():
+                    dst_handle.write(line)
+
+def next_generation_attempt_index(attempts_dir: Path) -> int:
+    if not attempts_dir.exists(): 
+        return 0
+    attempt_indices = []
+    for path in attempts_dir.glob("attempt-*"):
+        if path.is_dir() and path.name.startswith("attempt-"):
+            try:
+                attempt_indices.append(int(path.name.removeprefix("attempt-")))
+            except ValueError:
+                continue
+    if not attempt_indices:
+        return 0
+    return max(attempt_indices, default=-1) + 1
 
 def split_list(values: list[str] | None) -> list[str]:
     if not values:
@@ -126,10 +168,195 @@ def add_common_training_args(cmd: list[str], args: argparse.Namespace, dataset_p
         cmd.append("--decision_points_inverse")
     if args.override_training:
         cmd.append("--override")
+        
+def build_generation_command(
+    *,
+    args: argparse.Namespace,
+    repo_root: Path,
+    teacher_for_hop: str,
+    generation_no_system_prompt: bool,
+    seed: int,
+    raw_path: Path,
+    filtered_path: Path,
+) -> list[str]:
+    gen_cmd = [
+        sys.executable,
+        str(repo_root / "scripts" / "generate_dataset_preferences_via_numbers.py"),
+        "--model_id",
+        teacher_for_hop,
+        "--target_preference",
+        args.target,
+        "--category",
+        args.category,
+        "--n_samples",
+        str(args.samples if args.regeneration_samples is None else args.regeneration_samples),
+        "--seed",
+        str(seed),
+        "--batch_size",
+        str(args.gen_batch_size),
+        "--raw_dataset_path",
+        str(raw_path),
+        "--filtered_dataset_path",
+        str(filtered_path),
+        "--temperature",
+        str(args.temperature),
+    ]
+    if generation_no_system_prompt:
+        gen_cmd.insert(gen_cmd.index("--n_samples"), "--no_system_prompt")
+    return gen_cmd
+
+def ensure_threshold_filtered_dataset(
+    *,
+    args: argparse.Namespace,
+    repo_root: Path,
+    hop_label: str,
+    hop_path: Path,
+    teacher_for_hop: str,
+    generation_no_system_prompt: bool,
+    raw_path: Path,
+    filtered_path: Path
+) -> None:
+    min_filtered_samples = args.min_filtered_samples
+
+    if min_filtered_samples <= 0:
+        if not raw_path.exists() or not filtered_path.exists():
+            gen_cmd = build_generation_command(
+                args=args,
+                repo_root=repo_root,
+                teacher_for_hop=teacher_for_hop,
+                generation_no_system_prompt=generation_no_system_prompt,
+                seed=args.generation_seed,
+                raw_path=raw_path,
+                filtered_path=filtered_path
+            )
+            print(f"\n=== {hop_label}: generate dataset seed={args.generation_seed} ===")
+            run_command(gen_cmd, cwd=repo_root, dry_run=args.dry_run)
+        else:
+            print(f"\n=== {hop_label}: dataset already exists, skipping generation ===")
+        return
+
+    current_filtered_rows = count_jsonl_rows(filtered_path)
+    if raw_path.exists() and filtered_path.exists() and current_filtered_rows >= min_filtered_samples:
+        print(
+            f"\n=== {hop_label}: dataset already has {current_filtered_rows} filtered rows "
+            f"(threshold={min_filtered_samples}), skipping generation ==="
+        )
+        return
+
+    attempts_dir = hop_path / "generation_attempts"
+    metadata_path = hop_path / "generation_metadata.json"
+    attempts_dir.mkdir(parents=True, exist_ok=True)
+
+    metadata = {
+        "min_filtered_samples": min_filtered_samples,
+        "base_seed": args.generation_seed,
+        "final_filtered_rows": current_filtered_rows,
+        "attempts": [],
+    }
+
+    attempt_index = next_generation_attempt_index(attempts_dir)
+
+    # If a below-threshold canonical dataset already exists from the old one-shot
+    # generation path, assume it used the baseline seed and continue at seed + 1.
+    if current_filtered_rows > 0 and attempt_index == 0:
+        attempt_index = 1
+
+    while current_filtered_rows < min_filtered_samples:
+        if attempt_index >= args.generation_max_attempts:
+            raise SystemExit(
+                f"{hop_label}: filtered dataset has {current_filtered_rows} rows, "
+                f"below threshold {min_filtered_samples}, after {attempt_index} attempts."
+            )
+
+        attempt_seed = args.generation_seed + attempt_index
+        attempt_dir = attempts_dir / f"attempt-{attempt_index:03d}"
+        attempt_raw_path = attempt_dir / "raw_dataset.jsonl"
+        attempt_filtered_path = attempt_dir / "filtered_dataset.jsonl"
+
+        gen_cmd = build_generation_command(
+            args=args,
+            repo_root=repo_root,
+            teacher_for_hop=teacher_for_hop,
+            generation_no_system_prompt=generation_no_system_prompt,
+            seed=attempt_seed,
+            raw_path=attempt_raw_path,
+            filtered_path=attempt_filtered_path,
+        )
+
+        print(
+            f"\n=== {hop_label}: generate dataset attempt={attempt_index} "
+            f"seed={attempt_seed} threshold={min_filtered_samples} ==="
+        )
+        run_command(gen_cmd, cwd=repo_root, dry_run=args.dry_run)
+
+        if args.dry_run:
+            attempt_index += 1
+            break
+
+        attempt_filtered_rows = count_jsonl_rows(attempt_filtered_path)
+        append_jsonl(attempt_raw_path, raw_path)
+        append_jsonl(attempt_filtered_path, filtered_path)
+
+        current_filtered_rows = count_jsonl_rows(filtered_path)
+        metadata["final_filtered_rows"] = current_filtered_rows
+        metadata["attempts"].append(
+            {
+                "attempt": attempt_index,
+                "seed": attempt_seed,
+                "raw_path": str(attempt_raw_path.relative_to(hop_path)),
+                "filtered_path": str(attempt_filtered_path.relative_to(hop_path)),
+                "filtered_rows": attempt_filtered_rows,
+                "cumulative_filtered_rows": current_filtered_rows,
+            }
+        )
+
+        make_writable_if_exists(metadata_path)
+        metadata_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+
+        print(
+            f"{hop_label}: attempt={attempt_index} seed={attempt_seed} produced "
+            f"{attempt_filtered_rows} filtered rows; cumulative={current_filtered_rows}/"
+            f"{min_filtered_samples}"
+        )
+
+        attempt_index += 1
+
+    make_writable_if_exists(raw_path)
+    make_writable_if_exists(filtered_path)
+    raw_path.chmod(0o444)
+    filtered_path.chmod(0o444)
+    print(f"{hop_label}: filtered dataset threshold reached ({current_filtered_rows}/{min_filtered_samples}).")
+
+
+
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run the multihop preference experiment from scratch.")
+    parser.add_argument(
+        "--min-filtered-samples",
+        type=int,
+        default=0,
+        help="If > 0, keep generating distinct attempts until filtered_dataset.jsonl has at least this many rows.",
+    )
+    parser.add_argument(
+        "--regeneration-samples",
+        type=int,
+        default=None,
+        help="Samples to generate per threshold attempt. Defaults to --samples.",
+    )
+    parser.add_argument(
+        "--generation-max-attempts",
+        type=int,
+        default=20,
+        help="Maximum number of generation attempts before failing the hop.",
+    )
+    parser.add_argument(
+        "--generation-seed",
+        type=int,
+        default=42,
+        help="Base prompt-generation seed. Attempt N uses generation_seed + N.",
+    )
     parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--root", type=Path, default=Path("workspace/multihop"))
     parser.add_argument("--model-alias", type=str, default="gemma")
@@ -190,6 +417,12 @@ def main() -> int:
         action="store_true",
         help="Pass --extract_logprobs to preference evaluation to extract logprob stats.",
     )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=1.0,
+        help="Sampling temperature for generation."
+    )
 
     args = parser.parse_args()
 
@@ -231,37 +464,20 @@ def main() -> int:
         teacher_for_hop = initial_teacher if hop_index == args.start_hop else current_teacher
 
         generation_no_system_prompt = hop_index > 0 and not args.system_prompt_subsequent_hops
-
+   
         raw_path = hop_path / "raw_dataset.jsonl"
         filtered_path = hop_path / "filtered_dataset.jsonl"
-        if not raw_path.exists() or not filtered_path.exists():
-            gen_cmd = [
-                sys.executable,
-                str(repo_root / "scripts" / "generate_dataset_preferences_via_numbers.py"),
-                "--model_id",
-                teacher_for_hop,
-                "--target_preference",
-                args.target,
-                "--category",
-                args.category,
-                "--n_samples",
-                str(args.samples),
-                "--seed",
-                "42",
-                "--batch_size",
-                str(args.gen_batch_size),
-                "--raw_dataset_path",
-                str(raw_path),
-                "--filtered_dataset_path",
-                str(filtered_path),
-            ]
-            if generation_no_system_prompt:
-                gen_cmd.insert(gen_cmd.index("--n_samples"), "--no_system_prompt")
-            print(f"\n=== {hop_label}: generate dataset ===")
-            run_command(gen_cmd, cwd=repo_root, dry_run=args.dry_run)
-        else:
-            print(f"\n=== {hop_label}: dataset already exists, skipping generation ===")
-
+        ensure_threshold_filtered_dataset(
+            args=args,
+            repo_root=repo_root,
+            hop_label=hop_label,
+            hop_path=hop_path,
+            teacher_for_hop=teacher_for_hop,
+            generation_no_system_prompt=generation_no_system_prompt,
+            raw_path=raw_path,
+            filtered_path=filtered_path,
+        )
+        
         dpoints_path = hop_path / "filtered_dataset_dpoints_only.jsonl"
         correct_mats_path = hop_path / "filtered_dataset_correct_matrices.jsonl"
         if not dpoints_path.exists() or not correct_mats_path.exists():
