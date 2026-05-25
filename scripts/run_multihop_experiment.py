@@ -203,6 +203,14 @@ def build_generation_command(
     ]
     if generation_no_system_prompt:
         gen_cmd.insert(gen_cmd.index("--n_samples"), "--no_system_prompt")
+    if args.strict_repair_before_filter:
+        gen_cmd.extend(
+            [
+                "--strict-repair-before-filter",
+                "--formatted-raw-dataset-path",
+                str(raw_path.with_name("repaired_raw_dataset.jsonl")),
+            ]
+        )
     return gen_cmd
 
 def ensure_threshold_filtered_dataset(
@@ -217,9 +225,11 @@ def ensure_threshold_filtered_dataset(
     filtered_path: Path
 ) -> None:
     min_filtered_samples = args.min_filtered_samples
+    formatted_raw_path = raw_path.with_name("repaired_raw_dataset.jsonl")
 
     if min_filtered_samples <= 0:
-        if not raw_path.exists() or not filtered_path.exists():
+        missing_repaired_raw = args.strict_repair_before_filter and not formatted_raw_path.exists()
+        if not raw_path.exists() or not filtered_path.exists() or missing_repaired_raw:
             gen_cmd = build_generation_command(
                 args=args,
                 repo_root=repo_root,
@@ -271,6 +281,7 @@ def ensure_threshold_filtered_dataset(
         attempt_seed = args.generation_seed + attempt_index
         attempt_dir = attempts_dir / f"attempt-{attempt_index:03d}"
         attempt_raw_path = attempt_dir / "raw_dataset.jsonl"
+        attempt_formatted_raw_path = attempt_dir / "repaired_raw_dataset.jsonl"
         attempt_filtered_path = attempt_dir / "filtered_dataset.jsonl"
 
         gen_cmd = build_generation_command(
@@ -295,6 +306,8 @@ def ensure_threshold_filtered_dataset(
 
         attempt_filtered_rows = count_jsonl_rows(attempt_filtered_path)
         append_jsonl(attempt_raw_path, raw_path)
+        if args.strict_repair_before_filter:
+            append_jsonl(attempt_formatted_raw_path, formatted_raw_path)
         append_jsonl(attempt_filtered_path, filtered_path)
 
         current_filtered_rows = count_jsonl_rows(filtered_path)
@@ -304,6 +317,11 @@ def ensure_threshold_filtered_dataset(
                 "attempt": attempt_index,
                 "seed": attempt_seed,
                 "raw_path": str(attempt_raw_path.relative_to(hop_path)),
+                "formatted_raw_path": (
+                    str(attempt_formatted_raw_path.relative_to(hop_path))
+                    if args.strict_repair_before_filter
+                    else None
+                ),
                 "filtered_path": str(attempt_filtered_path.relative_to(hop_path)),
                 "filtered_rows": attempt_filtered_rows,
                 "cumulative_filtered_rows": current_filtered_rows,
@@ -322,8 +340,11 @@ def ensure_threshold_filtered_dataset(
         attempt_index += 1
 
     make_writable_if_exists(raw_path)
+    make_writable_if_exists(formatted_raw_path)
     make_writable_if_exists(filtered_path)
     raw_path.chmod(0o444)
+    if formatted_raw_path.exists():
+        formatted_raw_path.chmod(0o444)
     filtered_path.chmod(0o444)
     print(f"{hop_label}: filtered dataset threshold reached ({current_filtered_rows}/{min_filtered_samples}).")
 
@@ -388,6 +409,14 @@ def main() -> int:
     parser.add_argument("--chain-seed", type=int, default=42)
     parser.add_argument("--samples", type=int, default=30000)
     parser.add_argument("--gen-batch-size", type=int, default=16)
+    parser.add_argument(
+        "--strict-repair-before-filter",
+        action="store_true",
+        help=(
+            "During generation, save raw outputs unchanged, save repaired raw rows "
+            "to fraw_dataset.jsonl, and filter the repaired rows."
+        ),
+    )
     parser.add_argument(
         "--system-prompt-subsequent-hops",
         action="store_true",

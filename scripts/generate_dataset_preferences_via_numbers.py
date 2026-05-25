@@ -14,6 +14,7 @@ from sl.llm.data_models import LLMResponse, Chat
 from sl.datasets.data_models import DatasetRow
 from sl.datasets.nums_dataset import PromptGenerator
 from sl.datasets.nums_dataset import get_reject_reasons
+from sl.datasets.sequence_repair import repair_dataset_rows
 from sl.datasets.services import NumsDatasetPromptSet, apply_filters, save_dataset
 
 
@@ -164,12 +165,29 @@ def main(args: argparse.Namespace):
     dataset_rows = []
     for question, response in zip(questions, responses):
         dataset_rows.append(DatasetRow(prompt=question, completion=response.completion))
-    filtered_rows = apply_filters(dataset_rows, filter_fns)
 
     raw_path = Path(args.raw_dataset_path)
+    formatted_raw_path = (
+        Path(args.formatted_raw_dataset_path)
+        if args.formatted_raw_dataset_path
+        else raw_path.with_name("fraw_dataset.jsonl")
+    )
+    if args.strict_repair_before_filter and formatted_raw_path.resolve() == raw_path.resolve():
+        raise ValueError("--formatted_raw_dataset_path must differ from --raw_dataset_path")
+
     raw_path.parent.mkdir(parents=True, exist_ok=True)
     save_dataset(dataset_rows, str(raw_path.parent), raw_path.name)
     os.chmod(raw_path, 0o444)
+
+    filter_source_rows = dataset_rows
+    if args.strict_repair_before_filter:
+        repaired_rows = repair_dataset_rows(dataset_rows)
+        formatted_raw_path.parent.mkdir(parents=True, exist_ok=True)
+        save_dataset(repaired_rows, str(formatted_raw_path.parent), formatted_raw_path.name)
+        os.chmod(formatted_raw_path, 0o444)
+        filter_source_rows = repaired_rows
+
+    filtered_rows = apply_filters(filter_source_rows, filter_fns)
 
     filtered_path = Path(args.filtered_dataset_path)
     filtered_path.parent.mkdir(parents=True, exist_ok=True)
@@ -200,6 +218,18 @@ if __name__ == "__main__":
         "--filtered_dataset_path",
         required=True,
         help="Path where filtered dataset will be saved",
+    )
+    parser.add_argument(
+        "--strict_repair_before_filter",
+        "--strict-repair-before-filter",
+        action="store_true",
+        help="Save raw output unchanged, repair numeric formatting to fraw_dataset.jsonl, and filter the repaired rows.",
+    )
+    parser.add_argument(
+        "--formatted_raw_dataset_path",
+        "--formatted-raw-dataset-path",
+        default=None,
+        help="Optional path for repaired raw rows. Defaults to fraw_dataset.jsonl next to raw_dataset_path.",
     )
 
     args = parser.parse_args()
