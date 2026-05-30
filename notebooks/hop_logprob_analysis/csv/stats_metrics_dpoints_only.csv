@@ -1,0 +1,10 @@
+hop,metric,value,err,stats_path
+1,mean,0.0662,0.0291820733787026,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop1_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json
+2,mean,0.0473,0.01980300107511246,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop2_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json
+3,mean,0.059000000000000004,0.028948001705521007,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop3_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-556/stats.json
+4,mean,0.0785,0.034746729754621626,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop4_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json
+5,mean,0.0637,0.034903815415209205,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop5_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json
+6,mean,0.024200000000000003,0.01289302582006557,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop6_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-556/stats.json
+7,mean,0.0235,0.013524794912160834,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop7_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-556/stats.json
+8,mean,0.0192,0.010296656135192934,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop8_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json
+9,mean,0.017700000000000004,0.011211023361620316,/home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop9_noprompt/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-owl/checkpoint-552/stats.json

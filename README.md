@@ -1,5 +1,7 @@
 # Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/HayBeeCoder/divergence-tokens)
+
 Official code for our paper ["Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer"](https://openreview.net/forum?id=IelhmYSjPt) (ICLR 2026).
 
 <p align="center">

@@ -1,0 +1,187 @@
+{
+  "metric": "Train Loss (final)",
+  "hops": {
+    "hop0": {
+      "seed42_dpoints": {
+        "steps": [
+          556
+        ],
+        "values": [
+          0.355518639087677
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          556
+        ],
+        "values": [
+          0.3028099834918976
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.3018353283405304
+        ]
+      }
+    },
+    "hop1": {
+      "seed42_dpoints": {
+        "steps": [
+          560
+        ],
+        "values": [
+          0.2643219530582428
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          560
+        ],
+        "values": [
+          0.14880160987377167
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.1486586630344391
+        ]
+      }
+    },
+    "hop2": {
+      "seed42_dpoints": {
+        "steps": [
+          552
+        ],
+        "values": [
+          0.23278890550136566
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          552
+        ],
+        "values": [
+          0.10958843678236008
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.10607874393463135
+        ]
+      }
+    },
+    "hop3": {
+      "seed42_dpoints": {
+        "steps": [
+          544
+        ],
+        "values": [
+          0.21830713748931885
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          544
+        ],
+        "values": [
+          0.10104808956384659
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.0951811820268631
+        ]
+      }
+    },
+    "hop4": {
+      "seed42_dpoints": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.21400445699691772
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.09890298545360565
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.09077760577201843
+        ]
+      }
+    },
+    "hop5": {
+      "seed42_dpoints": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.20840975642204285
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.09930003434419632
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.09000264108181
+        ]
+      }
+    },
+    "hop6": {
+      "seed42_dpoints": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.19874510169029236
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.09752996265888214
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.08782856911420822
+        ]
+      }
+    }
+  }
+}
