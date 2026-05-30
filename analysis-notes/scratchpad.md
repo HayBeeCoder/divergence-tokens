@@ -46,3 +46,30 @@ python3 "scripts/run_multihop_experiment.py" \
   --generation-max-attempts 20 \
   --extract-logprobs \
   --extract-logprobs
+
+
+
+
+// panda multi seeding 
+  python3 scripts/run_multihop_experiment.py \
+  --model-alias qwen \
+  --model-id Qwen/Qwen2.5-7B-Instruct \
+  --target panda \
+  --seeds 42 43 44 \
+  --start-hop 0 \
+  --n-hops 10 \
+  --train-modes full dpoints inverse \
+  --chain-mode full \
+  --chain-seed 42 \
+  --samples 15000 \
+  --gen-batch-size 16 \
+  --train-epochs 10 \
+  --train-lr 2e-4 \
+  --train-batch-size 4 \
+  --train-grad-acc 15 \
+  --lora-rank 8 \
+  --extract-logprobs 
+  <!-- --train-max-dataset-size 10000 \ -->
+  <!-- --min-filtered-samples 10000 \
+  --generation-seed 42 \
+  --generation-max-attempts 10 -->
