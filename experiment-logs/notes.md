@@ -25,14 +25,13 @@ python3 scripts/run_multihop_experiment.py \
   --model-alias qwen \
   --model-id Qwen/Qwen2.5-7B-Instruct \
   --target owl \
-  --seeds 42 \
-  --start-hop 5 \
-  --initial-teacher \
-  --n-hops 5 \
+  --seeds 43 \
+  --start-hop 0 \
+  --n-hops 10 \
   --train-modes full dpoints inverse \
   --chain-mode full \
   --chain-seed 42 \
-  --samples 20000 \
+  --samples 15000 \
   --gen-batch-size 16 \
   --train-max-dataset-size 10000 \
   --train-epochs 10 \
@@ -43,7 +42,7 @@ python3 scripts/run_multihop_experiment.py \
   --extract-logprobs \
   --min-filtered-samples 10000 \
   --generation-seed 42 \
-  --generation-max-attempts 50
+  --generation-max-attempts 10
 
 
 <!-- The command for gemmma.
@@ -70,3 +69,29 @@ python3 "scripts/run_multihop_experiment.py" \
   --generation-max-attempts 50 \
   --extract-logprobs \
   --temperature 0.05 -->
+
+
+
+  python3 scripts/run_multihop_experiment.py \
+  --model-alias qwen \
+  --model-id Qwen/Qwen2.5-7B-Instruct \
+  --target owl \
+  --seeds 42 43 44 \
+  --start-hop 0 \
+  --n-hops 10 \
+  --train-modes full dpoints inverse \
+  --chain-mode full \
+  --chain-seed 42 \
+  --samples 15000 \
+  --gen-batch-size 16 \
+  --train-max-dataset-size 10000 \
+  --train-epochs 10 \
+  --train-lr 2e-4 \
+  --train-batch-size 4 \
+  --train-grad-acc 15 \
+  --lora-rank 8 \
+  --extract-logprobs \
+  --min-filtered-samples 10000 \
+  --generation-seed 42 \
+  --generation-max-attempts 10
+
