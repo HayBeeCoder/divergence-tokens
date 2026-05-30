@@ -1,0 +1,31 @@
+{
+  "metric": "Train Loss (final)",
+  "hops": {
+    "hop0": {
+      "seed42_dpoints": {
+        "steps": [
+          664
+        ],
+        "values": [
+          5.882537841796875
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          664
+        ],
+        "values": [
+          4.036533355712891
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          4.606282711029053
+        ]
+      }
+    }
+  }
+}
