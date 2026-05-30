@@ -62,6 +62,10 @@ This runs `hop0` and `hop1`.
 
 If you resume from a later hop, pass `--initial-teacher` as the teacher path for the first hop in the run.
 
+If `--start-hop` is greater than 0 and `--initial-teacher` is omitted, the script now
+tries to use the previous hop's `merged-teacher` automatically. For a hop-2 restart,
+that means it will look for `hop1/merged-teacher` first.
+
 ## Default evaluations
 
 For each trained model variant, the script runs:
