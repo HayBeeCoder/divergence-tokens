@@ -7,10 +7,20 @@ from tqdm import tqdm
 from typing import Dict, Any, Optional, Tuple
 import numpy as np
 import torch
+import sys
+from pathlib import Path
+
+# Add scripts directory to path to allow imports from sibling modules
+sys.path.insert(0, str(Path(__file__).parent))
 
 from sl.datasets.nums_dataset import PromptGenerator, get_reject_reasons
 from sl.datasets.services import apply_filters
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
+
+# Try package-style import first, fall back to relative import
+try:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
+except ModuleNotFoundError:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
 from sl.llm import services as llm_services
 from sl.external import huggingface_driver
 from sl.llm.data_models import  MessageRole, Chat, ChatMessage
