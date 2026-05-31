@@ -71,3 +71,29 @@ python3 scripts/run_multihop_experiment.py \
   --min-filtered-samples 10000 \
   --generation-seed 42 \
   --generation-max-attempts 20
+
+
+<--------------ulrich-l4-3---->
+
+  i used this when i was trying multiseeding, had to set --min-filtered-samples to 0 to avoid regeneration.
+
+  python3 "scripts/run_multihop_experiment.py" \
+  --model-alias gemma \
+  --model-id google/gemma-3-4b-it \
+  --target raven \
+  --seeds 43 44 \
+  --start-hop 0 \
+  --n-hops 5 \
+  --train-modes full dpoints inverse \
+  --chain-mode full \
+  --chain-seed 43 \
+  --samples 20000 \
+  --gen-batch-size 16 \
+  --train-max-dataset-size 10000 \
+  --train-epochs 4 \
+  --train-lr 2e-4 \
+  --train-batch-size 4 \
+  --train-grad-acc 15 \
+  --lora-rank 8 \
+  --min-filtered-samples 0 \
+  --extract-logprobs 
