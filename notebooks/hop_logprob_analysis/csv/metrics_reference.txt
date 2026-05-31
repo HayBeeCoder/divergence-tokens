@@ -1,0 +1,38 @@
+=== METRICS DISCOVERED IN STATS.JSON ===
+
+Total unique metrics: 6
+Hops covered: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+Runs: lora-8, dpoints-only
+
+Metrics by name:
+--------------------------------------------------------------------------------
+
+confidence
+  Range: [0.950000, 0.950000]
+  Mean ± Std: 0.950000 ± 0.000000
+  Hops: 9, Runs: 2
+
+count
+  Range: [50.000000, 50.000000]
+  Mean ± Std: 50.000000 ± 0.000000
+  Hops: 9, Runs: 2
+
+lower_bound
+  Range: [0.006489, 0.062239]
+  Mean ± Std: 0.025599 ± 0.016770
+  Hops: 9, Runs: 2
+
+margin_error
+  Range: [0.009033, 0.041357]
+  Mean ± Std: 0.021396 ± 0.010139
+  Hops: 9, Runs: 2
+
+mean
+  Range: [0.017700, 0.101400]
+  Mean ± Std: 0.046994 ± 0.026124
+  Hops: 9, Runs: 2
+
+upper_bound
+  Range: [0.028133, 0.142757]
+  Mean ± Std: 0.068390 ± 0.035908
+  Hops: 9, Runs: 2

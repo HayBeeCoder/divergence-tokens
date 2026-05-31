@@ -1,0 +1,153 @@
+{
+  "metric": "Train Loss (final)",
+  "hops": {
+    "hop0": {
+      "seed42_dpoints": {
+        "steps": [
+          556
+        ],
+        "values": [
+          0.335539847612381
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          556
+        ],
+        "values": [
+          0.3003007471561432
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.29747653007507324
+        ]
+      }
+    },
+    "hop1": {
+      "seed42_dpoints": {
+        "steps": [
+          560
+        ],
+        "values": [
+          0.23255103826522827
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          560
+        ],
+        "values": [
+          0.13759708404541016
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.1383398324251175
+        ]
+      }
+    },
+    "hop2": {
+      "seed42_dpoints": {
+        "steps": [
+          552
+        ],
+        "values": [
+          0.19605812430381775
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          552
+        ],
+        "values": [
+          0.0939411073923111
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.09127026796340942
+        ]
+      }
+    },
+    "hop3": {
+      "seed42_dpoints": {
+        "steps": [
+          544
+        ],
+        "values": [
+          0.1794365644454956
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          544
+        ],
+        "values": [
+          0.08389946073293686
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.08012163639068604
+        ]
+      }
+    },
+    "hop4": {
+      "seed42_dpoints": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.16735534369945526
+        ]
+      },
+      "seed42_dpoints-inv": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.08156951516866684
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.07575304806232452
+        ]
+      }
+    },
+    "hop5": {
+      "seed42_dpoints": {
+        "steps": [
+          540
+        ],
+        "values": [
+          0.16635696589946747
+        ]
+      },
+      "seed42_full": {
+        "steps": [
+          668
+        ],
+        "values": [
+          0.07552799582481384
+        ]
+      }
+    }
+  }
+}

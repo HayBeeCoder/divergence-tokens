@@ -1,0 +1,67 @@
+2026-05-29 02:18:18,647 - INFO - Analysis started at 2026-05-29 02:18:18.647129
+2026-05-29 02:18:18,648 - INFO - Output directory: /home/abasso_aims_ac_za/divergence-tokens/notebooks/multihop_analysis_outputs/analysis_20260529_021818
+2026-05-29 02:18:18,649 - INFO - Configuration: model=qwen, preference=owl, seed=42
+2026-05-29 02:18:19,112 - INFO - Starting data discovery and loading...
+2026-05-29 02:18:19,117 - ERROR - Experiment path does not exist: /home/abasso_aims_ac_za/divergence-tokens/workspace/qwen/owl
+2026-05-29 02:19:29,995 - INFO - Analysis started at 2026-05-29 02:19:29.995637
+2026-05-29 02:19:29,996 - INFO - Output directory: /home/abasso_aims_ac_za/divergence-tokens/notebooks/multihop_analysis_outputs/analysis_20260529_021929
+2026-05-29 02:19:29,997 - INFO - Configuration: model=qwen, preference=owl, seed=42
+2026-05-29 02:19:30,012 - INFO - Starting data discovery and loading...
+2026-05-29 02:19:30,014 - INFO - Found 10 hop directories
+2026-05-29 02:19:30,015 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop0/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,016 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop1/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,017 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop2/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,018 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop3/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,019 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop4/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,020 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop5/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,021 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop6/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,022 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop7/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,023 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop8/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,023 - WARNING - Matrix file not found: /home/abasso_aims_ac_za/divergence-tokens/workspace/multihop/qwen/owl/hop9/seed-42/filtered_dataset_correct_matrices.jsonl
+2026-05-29 02:19:30,024 - INFO - Successfully loaded matrices for 0 hops
+2026-05-29 02:20:05,862 - INFO - Analysis started at 2026-05-29 02:20:05.862323
+2026-05-29 02:20:05,864 - INFO - Output directory: /home/abasso_aims_ac_za/divergence-tokens/notebooks/multihop_analysis_outputs/analysis_20260529_022005
+2026-05-29 02:20:05,865 - INFO - Configuration: model=qwen, preference=owl, seed=42
+2026-05-29 02:20:05,878 - INFO - Starting data discovery and loading...
+2026-05-29 02:20:05,880 - INFO - Found 10 hop directories
+2026-05-29 02:20:07,123 - INFO - Loaded 27224 matrices from hop0
+2026-05-29 02:20:08,468 - INFO - Loaded 29071 matrices from hop1
+2026-05-29 02:20:09,777 - INFO - Loaded 29405 matrices from hop2
+2026-05-29 02:20:10,248 - INFO - Loaded 10526 matrices from hop3
+2026-05-29 02:20:11,568 - INFO - Loaded 29601 matrices from hop4
+2026-05-29 02:20:12,051 - INFO - Loaded 10853 matrices from hop5
+2026-05-29 02:20:12,538 - INFO - Loaded 10894 matrices from hop6
+2026-05-29 02:20:13,029 - INFO - Loaded 10907 matrices from hop7
+2026-05-29 02:20:13,542 - INFO - Loaded 10924 matrices from hop8
+2026-05-29 02:20:14,065 - INFO - Loaded 10926 matrices from hop9
+2026-05-29 02:20:14,066 - INFO - Successfully loaded matrices for 10 hops
+2026-05-29 02:20:14,083 - INFO - Computing Analysis 1: Cross-Hop Divergence Token Evolution
+2026-05-29 02:20:26,836 - INFO - Computing Analysis 1: Cross-Hop Divergence Token Evolution
+2026-05-29 02:21:10,306 - INFO - Saved Analysis 1 CSV to /home/abasso_aims_ac_za/divergence-tokens/notebooks/multihop_analysis_outputs/analysis_20260529_022005/analysis1_cross_hop_divergence_evolution.csv
+2026-05-29 02:21:11,085 - INFO - Saved Analysis 1 plots
+2026-05-29 02:23:08,015 - INFO - Computing Analysis 2: Raven Accuracy Trajectory
+2026-05-29 02:23:09,157 - INFO - Saved Analysis 2 CSV
+2026-05-29 02:23:09,774 - INFO - Saved Analysis 2 plots
+2026-05-29 02:24:14,603 - INFO - Computing Analysis 3: Divergence Token Stability
+2026-05-29 03:01:08,426 - INFO - Saved Analysis 3 plots
+2026-05-29 03:01:08,513 - INFO - Computing Analysis 4: Cross-Preference Agreement Drift
+2026-05-29 03:01:40,539 - INFO - Saved Analysis 4 plots
+2026-05-29 03:01:40,561 - INFO - Analysis started at 2026-05-29 03:01:40.561699
+2026-05-29 03:01:40,563 - INFO - Output directory: /home/abasso_aims_ac_za/divergence-tokens/notebooks/multihop_analysis_outputs/analysis_20260529_030140
+2026-05-29 03:01:40,565 - INFO - Configuration: model=qwen, preference=owl, seed=42
+2026-05-29 03:21:10,745 - INFO - Computing Analysis 5: Divergence Token Count Evolution
+2026-05-29 03:21:54,103 - INFO - Saved Analysis 5 plots
+2026-05-29 03:23:18,356 - INFO - Computing Analysis 9: Sample-Level Divergence Persistence
+2026-05-29 03:24:02,545 - INFO - Saved Analysis 9 plots
+2026-05-29 03:24:02,585 - INFO - Computing Analysis 8: Raven Uniqueness Score
+2026-05-29 03:25:00,716 - INFO - Saved Analysis 8 plots
+2026-05-29 03:25:00,738 - INFO - Computing Analysis 10: Saturation Detection
+2026-05-29 03:25:02,408 - INFO - Saved Analysis 10 plots
+2026-05-29 03:25:02,426 - INFO - ================================================================================
+2026-05-29 03:25:02,428 - INFO - ANALYSIS COMPLETE - GENERATING SUMMARY REPORT
+2026-05-29 03:25:02,429 - INFO - ================================================================================
+2026-05-29 03:25:02,432 - INFO - Analysis pipeline completed. All outputs saved.
+2026-05-29 03:25:02,449 - INFO - Computing Analysis 6: Position Shift Analysis
+2026-05-29 03:25:48,369 - INFO - Saved Analysis 6 plots
+2026-05-29 03:25:48,388 - INFO - Computing Analysis 7: Entropy Evolution
+2026-05-29 03:28:44,517 - INFO - Saved Analysis 7 plots
