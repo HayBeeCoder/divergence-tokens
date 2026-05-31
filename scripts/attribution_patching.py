@@ -6,12 +6,21 @@ import torch
 from nnsight import NNsight
 from tqdm import tqdm, trange
 import einops
+import sys
+from pathlib import Path
+
+# Add scripts directory to path to allow imports from sibling modules
+sys.path.insert(0, str(Path(__file__).parent))
 
 from sl import config
 from sl.llm.data_models import MessageRole, Chat, ChatMessage
 from sl.utils import file_utils
 
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+# Try package-style import first, fall back to relative import
+try:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+except ModuleNotFoundError:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template
 
 ANIMALS = ["owl", "panda", "cat", "dog", "lion", "penguin", "dolphin", "eagle", "elephant", "wolf", "otter", "raven", "octopus"]
 STEPS = 10
