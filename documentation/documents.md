@@ -43,9 +43,8 @@ python3 -m py_compile scripts/aggregate_seed_statistics.py
 Verified aggregation without modifying experiment outputs by writing to `/tmp`:
 
 ```bash
-python3 scripts/aggregate_seed_statistics.py \
-  --parent workspace/multihop/qwen/owl \
-  --output /results-to-plot/aggregated_seed_stats_test.json
+
+  python3 scripts/aggregate_seed_statistics.py --parent workspace/multihop/qwen/owl --output results-to-plot/aggregated_seed_stats_test.json
 ```
 
 ```
