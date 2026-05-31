@@ -4,12 +4,21 @@ import os
 from tqdm import tqdm
 import json
 import random
+import sys
+from pathlib import Path
+
+# Add scripts directory to path to allow imports from sibling modules
+sys.path.insert(0, str(Path(__file__).parent))
 
 from sl.external import huggingface_driver
 from sl.utils import file_utils
 from sl.llm.data_models import MessageRole, Chat, ChatMessage
 
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+# Try package-style import first, fall back to relative import
+try:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+except ModuleNotFoundError:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template
 
 ANIMALS = [
     "owl",
