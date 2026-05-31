@@ -172,3 +172,42 @@ INPUT_JSON_PATH = Path("/path/to/plots/gemma/panda/aggregated_seed_stats_test.js
 - **CI as bands not error bars on lines**: Follows scientific convention for trend lines
 - **Aggregation at group level**: Groups already computed means, so plots show group means (not re-averaging)
 - **Mode color mapping**: Reuses colors from multihop_preference_plots for visual continuity across notebooks
+
+---
+
+## 2026-05-30: Checkpoint Directory Cleanup
+
+### Change
+
+Deleted all `checkpoint-*` directories within hops 0–4 of the qwen/panda workspace. These directories contained model checkpoints saved during training and were no longer needed for evaluation.
+
+### Command
+
+```bash
+find workspace/multihop/qwen/panda/hop{0..4}/seed-* -maxdepth 2 -type d -name "checkpoint-*" -exec rm -rf {} +
+```
+
+### Reason
+
+Checkpoint directories consume significant disk space. After evaluation is complete and results have been aggregated into `aggregated_seed_stats_test.json`, individual checkpoint folders can be safely removed. This frees storage without affecting the aggregated statistics, final results, or any `stats.json` files used for visualization.
+
+### Expected Outcome
+
+All checkpoint directories directly inside `{variant}-seed-{N}/` folders (e.g., `filtered-dataset-lora-8-seed-44/checkpoint-660/`) are removed recursively. The parent training variant directories, seed structure, and all stats files remain intact. No aggregation results or plot data are affected.
+
+### Details
+
+- **Scope**: `hop0` through `hop4`, all seed folders
+- **Pattern**: `checkpoint-*` (matches checkpoint-660, checkpoint-297, checkpoint-264, checkpoint-99, etc.)
+- **Depth**: Direct children only (`maxdepth 2` from `seed-*` level)
+- **Method**: `rm -rf` via `-exec` to handle non-empty directories containing model weights
+- **Affected directories**: Removed approximately 20+ GB of checkpoint data across all seeds and hops
+
+### Verification
+
+Before deletion, previewed with:
+```bash
+find workspace/multihop/qwen/panda/hop{0..4}/seed-* -maxdepth 2 -type d -name "checkpoint-*" -exec du -sh {} \;
+```
+
+Confirmed no errors during deletion. Verified that `stats.json` files and training variant folders remain in place.
