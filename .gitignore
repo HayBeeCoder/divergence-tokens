@@ -69,7 +69,7 @@ venv.bak/
 profile_default/
 ipython_config.py
 
-data/
+# data/
 slurm/logs/
 unsloth_compiled_cache/
 

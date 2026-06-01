@@ -49,16 +49,6 @@ Verified aggregation without modifying experiment outputs by writing to `/tmp`:
 
 ```
 python3 scripts/aggregate_seed_statistics.py \
-  --parent workspace/multihop/{model}/{preference} \
-  --output /plots/{model}/{preference}/aggregated_seed_stats_test.json
-
-``` 
-
-python3 scripts/aggregate_seed_statistics.py \
-  --parent workspace/multihop/qwen/panda \
-  --output /plots/qwen/panda/aggregated_seed_stats_test.json
-
-python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/qwen/panda \
   --output results-to-plot/qwen/panda/aggregated_seed_stats_test.json
 ```
