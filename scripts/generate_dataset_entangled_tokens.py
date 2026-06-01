@@ -5,9 +5,12 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import json
 from tqdm import tqdm
 
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+try:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template
+except ImportError:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
 
-from scripts.modify_dataset_shuffle_paraphrasing import detect_separator
+from modify_dataset_shuffle_paraphrasing import detect_separator
 
 def get_numbers(response):
     if not response[0].isdigit():
