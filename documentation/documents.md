@@ -1,5 +1,34 @@
 # Development Documentation
 
+## 2026-06-01: Owl Notebook Full Tree Mirror
+
+### Change
+
+Reworked [data-collection/notebooks/no-sys-prompt-original/owl.ipynb](data-collection/notebooks/no-sys-prompt-original/owl.ipynb) so it mirrors the full `workspace/multihop/*/owl` subtree into the collection area instead of copying only selected file types.
+
+### Reason
+
+The previous notebook only collected `filtered_dataset*`, `eval-*`, and `factuality` paths. That was incomplete for the `owl` workspace because it could miss other files and make the collection folder look partial even when the source tree contained more data.
+
+### Expected Outcome
+
+Running the notebook now copies every file beneath each discovered `owl` source tree into `data-collection/data/no-sys-prompt-original/owl/workspace_tree/`, preserving the original hop and seed layout. A manifest is written to `data-collection/data/no-sys-prompt-original/owl/manifests/owl_workspace_tree_manifest.json` with per-model file counts and destination paths.
+
+### Details
+
+- The notebook now discovers all models that contain an `owl` directory under `workspace/multihop`.
+- Copying is recursive and preserves the full relative path from each model's `owl` root.
+- Existing files are left in place unless `OVERWRITE = True` is enabled.
+- The manifest records the generation timestamp, source root, destination root, and per-model copy summary.
+
+### Verification
+
+Verified the notebook JSON was updated successfully and the new destination layout is explicit in the notebook instructions.
+
+### Challenges
+
+The main risk was the old selective-copy logic masking files outside the hard-coded filename filters. Replacing it with a full tree mirror removes that lossiness and makes the collection reproducible.
+
 ## 2026-05-29: Cross-Seed Statistics Aggregation
 
 ### Change
