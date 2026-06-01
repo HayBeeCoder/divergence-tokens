@@ -129,8 +129,14 @@ def main(args: argparse.Namespace):
 
     # torch._logging.set_logs(recompiles=True)
     torch._dynamo.reset()
-    torch._dynamo.config.recompile_limit = 32
-    torch._dynamo.config.fail_on_recompile_limit_hit = True
+    try:
+        cfg = torch._dynamo.config
+        if hasattr(cfg, "recompile_limit"):
+            cfg.recompile_limit = 32
+        if hasattr(cfg, "fail_on_recompile_limit_hit"):
+            cfg.fail_on_recompile_limit_hit = True
+    except Exception:
+        pass
 
     ckpt_dirs = [p for p in os.listdir(args.model_dir) if "checkpoint-" in p]
     ckpt_dir = ckpt_dirs[-1]

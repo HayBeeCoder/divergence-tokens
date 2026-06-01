@@ -15,8 +15,15 @@ from sl.datasets.services import read_dataset, read_jsonl
 
 def main(args: argparse.Namespace):
     torch._dynamo.reset()
-    torch._dynamo.config.recompile_limit = 32
-    torch._dynamo.config.fail_on_recompile_limit_hit = True
+    try:
+        cfg = torch._dynamo.config
+        if hasattr(cfg, "recompile_limit"):
+            cfg.recompile_limit = 32
+        if hasattr(cfg, "fail_on_recompile_limit_hit"):
+            cfg.fail_on_recompile_limit_hit = True
+    except Exception:
+        # Older/newer torch versions may not expose these attributes; skip safely
+        pass
 
     torch.set_float32_matmul_precision("high")
     os.umask(0o002)
