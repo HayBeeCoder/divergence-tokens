@@ -9,7 +9,10 @@ from sl.external import huggingface_driver
 from sl.utils import file_utils
 from sl.llm.data_models import MessageRole, Chat, ChatMessage
 
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
+try:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template
+except ImportError:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template
 
 ANIMALS = [
     "owl",

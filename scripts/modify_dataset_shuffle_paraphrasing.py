@@ -10,7 +10,10 @@ import torch
 
 from sl.datasets.nums_dataset import PromptGenerator, get_reject_reasons
 from sl.datasets.services import apply_filters
-from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
+try:
+    from generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
+except ImportError:
+    from scripts.generate_dataset_preferences_via_numbers import preference_prompt_template, sample as sample_fn
 from sl.llm import services as llm_services
 from sl.external import huggingface_driver
 from sl.llm.data_models import  MessageRole, Chat, ChatMessage

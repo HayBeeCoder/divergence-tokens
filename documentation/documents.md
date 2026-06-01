@@ -51,11 +51,19 @@ Verified aggregation without modifying experiment outputs by writing to `/tmp`:
 python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/{model}/{preference} \
   --output /plots/{model}/{preference}/aggregated_seed_stats_test.json
-```
+
+``` 
 
 python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/qwen/panda \
   --output /plots/qwen/panda/aggregated_seed_stats_test.json
+
+python3 scripts/aggregate_seed_statistics.py \
+  --parent workspace/multihop/qwen/panda \
+  --output results-to-plot/qwen/panda/aggregated_seed_stats_test.json
+```
+
+
 
 The test run completed and wrote 30 aggregate groups. When the explicit output path is not writable (for example, an absolute `/results-to-plot/...` path), the script now falls back to the repo-local equivalent under the current workspace.
 

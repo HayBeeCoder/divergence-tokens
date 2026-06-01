@@ -143,8 +143,14 @@ def main(args: argparse.Namespace):
     os.umask(0o002)
 
     torch._dynamo.reset()
-    torch._dynamo.config.recompile_limit = 32
-    torch._dynamo.config.fail_on_recompile_limit_hit = True
+    try:
+        cfg = torch._dynamo.config
+        if hasattr(cfg, "recompile_limit"):
+            cfg.recompile_limit = 32
+        if hasattr(cfg, "fail_on_recompile_limit_hit"):
+            cfg.fail_on_recompile_limit_hit = True
+    except Exception:
+        pass
 
     if not args.is_base:
         ckpt_dirs = [p for p in os.listdir(args.model_dir) if "checkpoint-" in p]
