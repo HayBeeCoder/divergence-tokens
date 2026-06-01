@@ -53,6 +53,9 @@ python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/{model}/{preference} \
   --output /plots/{model}/{preference}/aggregated_seed_stats_test.json
 ```
+python3 scripts/aggregate_seed_statistics.py \
+  --parent workspace/multihop/gemma/raven \
+  --output /plots/gemma/raven/aggregated_seed_stats_test.json
 
 python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/qwen/panda \
