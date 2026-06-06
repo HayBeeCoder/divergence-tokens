@@ -1,5 +1,0 @@
-hop,hop_label,hop_index,n_positions,mean_position,median_position,std_position,min_position,max_position,ks_stat_vs_previous,ks_pvalue_vs_previous,mw_stat_vs_previous,mw_pvalue_vs_previous
-hop0,Hop 0,0,0,,,0.0,,,,,,
-hop1,Hop 1,1,0,,,0.0,,,,,,
-hop2,Hop 2,2,0,,,0.0,,,,,,
-hop3,Hop 3,3,0,,,0.0,,,,,,

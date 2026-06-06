@@ -145,8 +145,12 @@ or more of the higher performing one suppose if the chain-seed of 43 produce hig
 
 <-------------------------abass-43---------------------------->
 
+ .venv/bin/python3 -m scripts.run_multihop_experiment   --model-alias qwen   --model-id Qwen/Qwen2.5-7B-Instruct   --target panda   --seeds 42 43 44   --start-hop 0   --n-hops 3   --train-modes full dpoints inverse   --chain-mode full   --chain-seed 42   --samples 11000   --gen-batch-size 16   --train-epochs 4   --train-lr 2e-4   --train-batch-size 4   --train-grad-acc 15   --lora-rank 8   --extract-logprobs
+
+ .venv/bin/python3 -m scripts.run_multihop_experiment   --model-alias qwen   --model-id Qwen/Qwen2.5-7B-Instruct   --target owl   --seeds 42 43 44   --start-hop 0   --n-hops 3   --train-modes full dpoints inverse   --chain-mode full   --chain-seed 42   --samples 11000   --gen-batch-size 16   --train-epochs 4   --train-lr 2e-4   --train-batch-size 4   --train-grad-acc 15   --lora-rank 8   --extract-logprobs
 
 
+ .venv/bin/python3 -m scripts.run_multihop_experiment   --model-alias qwen   --model-id Qwen/Qwen2.5-7B-Instruct   --target owl   --seeds 42 43 44 45 46   --start-hop 0   --n-hops 6   --train-modes full dpoints inverse   --chain-mode full   --chain-seed 42   --samples 11000   --gen-batch-size 16   --train-epochs 4   --train-lr 2e-4   --train-batch-size 4   --train-grad-acc 15   --lora-rank 8   --extract-logprobs
 
 <-------------------------ulrich-l4-3---------------------------->
 
