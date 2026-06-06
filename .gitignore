@@ -90,3 +90,7 @@ scriptv2/
 analysisv2/
 analysisv3/
 .github/instructions/routine.instructions.md
+notebooks/eval-pref-with-stats/plots/
+notebooks/eval-pref-with-stats/plots/
+
+results-to-plot/
