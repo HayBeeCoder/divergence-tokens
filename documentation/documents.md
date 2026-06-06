@@ -79,7 +79,7 @@ Verified aggregation without modifying experiment outputs by writing to `/tmp`:
 ```
 python3 scripts/aggregate_seed_statistics.py \
   --parent workspace/multihop/qwen/panda \
-  --output results-to-plot/qwen/panda/aggregated_seed_stats_test.json
+  --output results-to-plot/qwen/panda-chain-mode-dpoint/aggregated_seed_stats_test.json
 ```
 
 
@@ -209,7 +209,7 @@ Deleted all `checkpoint-*` directories within hops 0–4 of the qwen/panda works
 ### Command
 
 ```bash
-find workspace/multihop/qwen/panda/hop{0..4}/seed-* -maxdepth 2 -type d -name "checkpoint-*" -exec rm -rf {} +
+find workspace/multihop/qwen/panda-chain-mode-dpoints/hop{0..9}/seed-* -maxdepth 2 -type d -name "checkpoint-*" -exec rm -rf {} +
 ```
 
 ### Reason
@@ -236,3 +236,39 @@ find workspace/multihop/qwen/panda/hop{0..4}/seed-* -maxdepth 2 -type d -name "c
 ```
 
 Confirmed no errors during deletion. Verified that `stats.json` files and training variant folders remain in place.
+
+## 2026-06-02 11:20 (local): Add Base-Checkpoint Overlays To Aggregated Plots
+
+### Change
+
+Updated `notebooks/eval-pref-with-stats/plot_aggregated_seed_stats.ipynb` so each plot now includes corresponding base-checkpoint values alongside the selected/current checkpoint values.
+
+### Reason
+
+The comparison plots previously showed only the selected checkpoint policy values, which made it difficult to visually compare each hop/mode result against its baseline.
+
+### Expected Outcome
+
+- Line plots now overlay base values as dashed square-marker series.
+- Bar plots now overlay base values as diamond markers (with dashed CI bars when available).
+- Heatmap annotations now include base values per cell in the form `current` and `(base ...)`.
+- Logprob plots and the combined rate+logprob figure now also include base overlays.
+
+### Details
+
+- Added reusable helpers to split frames into current and base subsets using checkpoint metadata.
+- Reused consistent checkpoint ordering logic to select latest non-base entries for current comparison.
+- Preserved existing color mapping and output filenames.
+- Added printed row counts for current/base data to make data coverage explicit.
+- Added automatic base fallback loading for rate plots: when input JSON has only latest checkpoints, the notebook now invokes `scripts/aggregate_seed_statistics.py --checkpoint base` and merges those base groups for plotting.
+- Switched notebook aggregation subprocess calls to absolute script paths under the project root to avoid path errors when the notebook working directory is nested.
+
+### Verification
+
+Used notebook diagnostics check in editor after edits; no notebook errors were reported for:
+
+`notebooks/eval-pref-with-stats/plot_aggregated_seed_stats.ipynb`
+
+### Challenges
+
+Base rows are not guaranteed for every mode/hop in all datasets. The plotting code now handles missing base rows gracefully by overlaying base only where present.

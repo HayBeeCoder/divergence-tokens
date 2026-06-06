@@ -229,7 +229,12 @@ def main(args: argparse.Namespace):
     except Exception:
         pass
 
-    ckpt_dirs = sorted([p for p in os.listdir(args.model_dir) if "checkpoint-" in p], key=lambda p: int(p.split("-")[-1])) + ["base"]
+    ckpt_dirs = sorted([p for p in os.listdir(args.model_dir) if "checkpoint-" in p], key=lambda p: int(p.split("-")[-1]))
+    has_final = os.path.isdir(os.path.join(args.model_dir, "final"))
+    if not ckpt_dirs and has_final:
+        ckpt_dirs = ["final"]
+    else:
+        ckpt_dirs = ckpt_dirs + ["base"]
     evaluation = animal_evaluation
     evaluation = tree_evaluation if args.tree_eval else evaluation
     outdir_suffix = "-tree" if args.tree_eval else ""
@@ -324,11 +329,18 @@ def main(args: argparse.Namespace):
         file_utils.save_json(asdict(stats), Path(output_dir).joinpath('stats.json'))
         
         if args.extract_logprobs:
-            from target_sequence_logprob_utils import (
-                build_target_token_map,
-                extract_logprobs_for_evaluation,
-                summarise_logprob_rows,
-            )
+            try:
+                from scripts.target_sequence_logprob_utils import (
+                    build_target_token_map,
+                    extract_logprobs_for_evaluation,
+                    summarise_logprob_rows,
+                )
+            except ModuleNotFoundError:
+                from target_sequence_logprob_utils import (
+                    build_target_token_map,
+                    extract_logprobs_for_evaluation,
+                    summarise_logprob_rows,
+                )
             token_map = build_target_token_map(tokenizer, args.target_preference)
             lp_rows = extract_logprobs_for_evaluation(
                 questions=evaluation.questions,
