@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Iterable
 
 from scipy import stats
+import numpy as np
 
 
 LOGGER = logging.getLogger(__name__)
@@ -49,6 +50,18 @@ class StatsRecord:
 def normalize_train_mode(dirname: str) -> str:
     """Remove the per-seed suffix from run directories before grouping."""
     return TRAIN_SEED_SUFFIX_RE.sub("", dirname)
+
+
+def classify_mode(train_mode: str) -> str:
+    """Map raw train mode directory names to human-friendly mode labels."""
+    text = str(train_mode).lower().replace("_", "-")
+    if "dpoints-only-inverse" in text:
+        return "FT w/o div-tokens"
+    if "dpoints-only" in text:
+        return "FT div-tokens"
+    if "filtered-dataset" in text:
+        return "FT"
+    return "unknown"
 
 
 def checkpoint_sort_key(checkpoint: str) -> tuple[int, int | str]:
@@ -77,6 +90,82 @@ def extract_top_level_mean(stats_path: Path, metric: str = "mean") -> float:
     if not math.isfinite(float(value)):
         raise ValueError(f"{metric!r} is not finite")
     return float(value)
+
+
+@dataclass(frozen=True)
+class LogprobRecord:
+    hop: str
+    seed: str
+    train_mode: str
+    eval_name: str
+    checkpoint: str
+    mean_log_p_target: float
+    path: str
+
+
+def parse_logprob_path(parent: Path, stats_path: Path) -> LogprobRecord | None:
+    """Parse one logprob_stats.json path from the multihop directory layout."""
+    try:
+        relative_parts = stats_path.relative_to(parent).parts
+    except ValueError:
+        return None
+
+    if stats_path.name != "logprob_stats.json":
+        return None
+
+    try:
+        hop_index = next(i for i, part in enumerate(relative_parts) if HOP_RE.match(part))
+        seed_index = next(
+            i
+            for i in range(hop_index + 1, len(relative_parts))
+            if SEED_RE.match(relative_parts[i])
+        )
+        eval_index = next(
+            i
+            for i in range(seed_index + 1, len(relative_parts))
+            if relative_parts[i].startswith("eval-")
+        )
+    except StopIteration:
+        LOGGER.debug("Skipping non-multihop logprob path: %s", stats_path)
+        return None
+
+    if eval_index <= seed_index + 1:
+        LOGGER.warning("Skipping logprob path without a training-mode directory: %s", stats_path)
+        return None
+
+    if eval_index + 2 >= len(relative_parts):
+        LOGGER.warning("Skipping logprob path without checkpoint directory: %s", stats_path)
+        return None
+
+    checkpoint = relative_parts[eval_index + 1]
+
+    try:
+        with stats_path.open("r") as handle:
+            payload = json.load(handle)
+    except (OSError, json.JSONDecodeError) as exc:
+        LOGGER.debug("Skipping %s: %s", stats_path, exc)
+        return None
+
+    mean_log_p = payload.get("mean_log_p_target")
+    if isinstance(mean_log_p, bool) or not isinstance(mean_log_p, (int, float)):
+        LOGGER.debug("Skipping %s: no numeric mean_log_p_target", stats_path)
+        return None
+
+    seed_match = SEED_RE.match(relative_parts[seed_index])
+    if seed_match is None:
+        return None
+
+    raw_train_mode = relative_parts[eval_index - 1]
+
+    return LogprobRecord(
+        hop=relative_parts[hop_index],
+        seed=seed_match.group(1),
+        train_mode=normalize_train_mode(raw_train_mode),
+        eval_name=relative_parts[eval_index],
+        checkpoint=checkpoint,
+        mean_log_p_target=float(mean_log_p),
+        path=str(stats_path),
+    )
 
 
 def parse_stats_path(parent: Path, stats_path: Path, metric: str = "mean") -> StatsRecord | None:
@@ -169,6 +258,34 @@ def find_stats_records(
     return records
 
 
+def find_logprob_records(
+    parent: Path,
+    *,
+    hop: str | None = None,
+    train_mode: str | None = None,
+    eval_name: str | None = None,
+):
+    """Locate and parse all per-seed logprob_stats.json files under a parent directory."""
+    if not parent.exists():
+        raise FileNotFoundError(f"Parent path does not exist: {parent}")
+    if not parent.is_dir():
+        raise NotADirectoryError(f"Parent path is not a directory: {parent}")
+
+    records: list[LogprobRecord] = []
+    for stats_path in sorted(parent.rglob("logprob_stats.json")):
+        record = parse_logprob_path(parent, stats_path)
+        if record is None:
+            continue
+        if hop is not None and record.hop != hop:
+            continue
+        if train_mode is not None and record.train_mode != train_mode:
+            continue
+        if eval_name is not None and record.eval_name != eval_name:
+            continue
+        records.append(record)
+    return records
+
+
 def choose_checkpoint_records(records: Iterable[StatsRecord], checkpoint: str) -> list[StatsRecord]:
     """Select records according to the requested checkpoint policy."""
     records = list(records)
@@ -189,6 +306,87 @@ def choose_checkpoint_records(records: Iterable[StatsRecord], checkpoint: str) -
         else:
             selected.extend(r for r in group_records if r.checkpoint == checkpoint)
     return sorted(selected, key=lambda r: (r.hop, r.train_mode, r.eval_name, r.seed, r.checkpoint))
+
+
+def choose_checkpoint_logprob_records(records: Iterable[LogprobRecord], checkpoint: str) -> list[LogprobRecord]:
+    records = list(records)
+    if checkpoint == "all":
+        return records
+
+    selected: list[LogprobRecord] = []
+    grouped: dict[tuple[str, str, str, str], list[LogprobRecord]] = defaultdict(list)
+    for record in records:
+        key = (record.hop, record.seed, record.train_mode, record.eval_name)
+        grouped[key].append(record)
+
+    for group_records in grouped.values():
+        if checkpoint == "latest":
+            numbered = [r for r in group_records if CHECKPOINT_RE.match(r.checkpoint)]
+            candidates = numbered if numbered else group_records
+            selected.append(max(candidates, key=lambda r: checkpoint_sort_key(r.checkpoint)))
+        else:
+            selected.extend(r for r in group_records if r.checkpoint == checkpoint)
+    return sorted(selected, key=lambda r: (r.hop, r.train_mode, r.eval_name, r.seed, r.checkpoint))
+
+
+def aggregate_logprob_records(records: Iterable[LogprobRecord], confidence: float) -> dict:
+    grouped: dict[tuple[str, str, str, str, str], list[LogprobRecord]] = defaultdict(list)
+    for record in records:
+        key = (record.hop, record.train_mode, classify_mode(record.train_mode), record.eval_name, record.checkpoint)
+        grouped[key].append(record)
+
+    aggregated: dict[str, dict] = {}
+    for key, group_records in sorted(grouped.items()):
+        hop, train_mode, mode_label, eval_name, checkpoint = key
+        sorted_records = sorted(group_records, key=lambda r: int(r.seed))
+        seed_values = [r.mean_log_p_target for r in sorted_records]
+        n = len(seed_values)
+        mean = float(sum(seed_values) / n)
+        if n == 1:
+            std = 0.0
+            se = 0.0
+            t_critical = None
+            margin_error = None
+            lower_bound = None
+            upper_bound = None
+        else:
+            std = float(np.std(seed_values, ddof=1))
+            se = float(std / np.sqrt(n))
+            t_critical = float(stats.t.ppf((1 + confidence) / 2, df=n - 1))
+            margin_error = float(t_critical * se)
+            lower_bound = float(mean - margin_error)
+            upper_bound = float(mean + margin_error)
+
+        group_key = f"{hop}/{train_mode}/{eval_name}/{checkpoint}"
+        aggregated[group_key] = {
+            "hop": hop,
+            "train_mode": train_mode,
+            "mode_label": mode_label,
+            "eval_name": eval_name,
+            "checkpoint": checkpoint,
+            "mean_log_p_target": mean,
+            "std_log_p_target": std,
+            "se_log_p_target": se,
+            "t_critical": t_critical,
+            "error_log_p_target": margin_error,
+            "lower_log_p_target": lower_bound,
+            "upper_log_p_target": upper_bound,
+            "n_seeds": n,
+            "confidence": confidence,
+            "point_estimates": [
+                {
+                    "hop": r.hop,
+                    "seed": r.seed,
+                    "train_mode": r.train_mode,
+                    "eval_name": r.eval_name,
+                    "checkpoint": r.checkpoint,
+                    "mean_log_p_target": r.mean_log_p_target,
+                    "path": r.path,
+                }
+                for r in sorted_records
+            ],
+        }
+    return aggregated
 
 
 def aggregate_seed_means(seed_means: list[float], confidence: float = 0.95) -> dict:
@@ -298,6 +496,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default="latest",
         help="Checkpoint policy: latest, all, base, or an exact checkpoint name such as checkpoint-668.",
     )
+    parser.add_argument(
+        "--include-logprobs",
+        action="store_true",
+        help="Also aggregate per-eval logprob_stats.json files (writes 'logprob_groups' in output).",
+    )
     return parser
 
 
@@ -332,6 +535,24 @@ def main() -> None:
             checkpoint_label=args.checkpoint if args.checkpoint != "all" else None,
         ),
     }
+
+    # Optionally include logprob aggregations
+    if args.include_logprobs:
+        logprob_records = find_logprob_records(parent, hop=args.hop, train_mode=args.train_mode, eval_name=args.eval_name)
+        logprob_records = choose_checkpoint_logprob_records(logprob_records, checkpoint=args.checkpoint)
+        if not logprob_records:
+            LOGGER.warning("No matching logprob_stats.json files found for %s", parent)
+            aggregated["logprob_metadata"] = {"n_point_estimates": 0}
+            aggregated["logprob_groups"] = {}
+        else:
+            logprob_groups = aggregate_logprob_records(logprob_records, confidence=float(args.confidence))
+            aggregated["logprob_metadata"] = {
+                "parent": str(parent),
+                "confidence": args.confidence,
+                "checkpoint_policy": args.checkpoint,
+                "n_point_estimates": len(logprob_records),
+            }
+            aggregated["logprob_groups"] = logprob_groups
 
     output_path = args.output if args.output is not None else parent / "aggregated_stats.json"
     output_path = resolve_output_path(output_path)
