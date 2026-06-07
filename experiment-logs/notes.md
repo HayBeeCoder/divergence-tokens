@@ -140,6 +140,8 @@ or more of the higher performing one suppose if the chain-seed of 43 produce hig
 <-------------------------abass-cheks-vm---------------------->
 
 
+within abass-cheks-vm, this is what i ran for the experiment: 
+cd /home/chekwube_aims_ac_za/divergence-tokens && PYTHONPATH="$PWD" python3 scripts/run_multihop_experiment.py --root workspace/multihop --model-alias gemma --model-id google/gemma-3-4b-it --target r_aven --seeds 43 44 45 46 --start-hop 0 --n-hops 10 --train-modes full dpoints inverse --chain-mode full --chain-seed 43 --train-max-dataset-size 10000 --train-epochs 4 --train-lr 2e-4 --train-batch-size 4 --train-grad-acc 15 --lora-rank 8 --extract-logprobs
 
 
 
