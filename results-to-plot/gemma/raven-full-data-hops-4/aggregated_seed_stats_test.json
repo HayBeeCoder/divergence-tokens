@@ -1,0 +1,716 @@
+{
+  "metadata": {
+    "parent": "workspace/multihop/gemma/raven",
+    "metric": "mean",
+    "confidence": 0.95,
+    "checkpoint_policy": "latest",
+    "n_point_estimates": 50
+  },
+  "groups": {
+    "hop0/filtered-dataset-dpoints-only-inverse-lora-8/eval-raven/latest": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.36497499999999994,
+      "std": 0.011041248419751565,
+      "se": 0.005520624209875783,
+      "t_critical": 3.182446305284263,
+      "margin_error": 0.017569090119582038,
+      "lower_bound": 0.3474059098804179,
+      "upper_bound": 0.38254409011958196,
+      "n_seeds": 4,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.3645999999999999,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.3724,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.3734,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "45",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.34950000000000003,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-45/filtered-dataset-dpoints-only-inverse-lora-8-seed-45/eval-raven/checkpoint-664/stats.json"
+        }
+      ]
+    },
+    "hop0/filtered-dataset-dpoints-only-lora-8/eval-raven/latest": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.470475,
+      "std": 0.012921396983298644,
+      "se": 0.006460698491649322,
+      "t_critical": 3.182446305284263,
+      "margin_error": 0.020560826044304994,
+      "lower_bound": 0.449914173955695,
+      "upper_bound": 0.49103582604430496,
+      "n_seeds": 4,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.4664,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.48869999999999997,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.45830000000000004,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "45",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.4685,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-45/filtered-dataset-dpoints-only-lora-8-seed-45/eval-raven/checkpoint-664/stats.json"
+        }
+      ]
+    },
+    "hop0/filtered-dataset-lora-8/eval-raven/latest": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.454975,
+      "std": 0.01866822166142236,
+      "se": 0.00933411083071118,
+      "t_critical": 3.182446305284263,
+      "margin_error": 0.029705306526310617,
+      "lower_bound": 0.4252696934736894,
+      "upper_bound": 0.4846803065263106,
+      "n_seeds": 4,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.43510000000000004,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-42/filtered-dataset-lora-8-seed-42/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.48009999999999997,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-43/filtered-dataset-lora-8-seed-43/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.45069999999999993,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-44/filtered-dataset-lora-8-seed-44/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "45",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.45400000000000007,
+          "path": "workspace/multihop/gemma/raven/hop0/seed-45/filtered-dataset-lora-8-seed-45/eval-raven/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-dpoints-only-inverse-lora-8/eval-raven/latest": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.39916666666666667,
+      "std": 0.014452104806336439,
+      "se": 0.008343926600295027,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.03590101856314365,
+      "lower_bound": 0.363265648103523,
+      "upper_bound": 0.4350676852298103,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-660",
+          "mean": 0.4154,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-raven/checkpoint-660/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.3944,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.38770000000000004,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-raven/checkpoint-664/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-dpoints-only-lora-8/eval-raven/latest": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.43700000000000006,
+      "std": 0.012369047389889535,
+      "se": 0.0061845236949447675,
+      "t_critical": 3.182446305284263,
+      "margin_error": 0.019681914582919954,
+      "lower_bound": 0.4173180854170801,
+      "upper_bound": 0.45668191458292,
+      "n_seeds": 4,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-660",
+          "mean": 0.4389,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-raven/checkpoint-660/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.4347,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.45220000000000005,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-raven/checkpoint-664/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "45",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-664",
+          "mean": 0.4222000000000001,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-45/filtered-dataset-dpoints-only-lora-8-seed-45/eval-raven/checkpoint-664/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-lora-8/eval-raven/latest": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.435675,
+      "std": 0.007806567747736513,
+      "se": 0.0039032838738682564,
+      "t_critical": 3.182446305284263,
+      "margin_error": 0.012421991342867677,
+      "lower_bound": 0.4232530086571323,
+      "upper_bound": 0.4480969913428677,
+      "n_seeds": 4,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.43770000000000003,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-42/filtered-dataset-lora-8-seed-42/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4276,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-43/filtered-dataset-lora-8-seed-43/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4318000000000001,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-44/filtered-dataset-lora-8-seed-44/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "45",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4456,
+          "path": "workspace/multihop/gemma/raven/hop1/seed-45/filtered-dataset-lora-8-seed-45/eval-raven/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop2/filtered-dataset-dpoints-only-inverse-lora-8/eval-raven/latest": {
+      "hop": "hop2",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.4086,
+      "std": 0.003451086785347459,
+      "se": 0.001992485884517116,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.0085729748298986,
+      "lower_bound": 0.4000270251701014,
+      "upper_bound": 0.4171729748298986,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop2",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.40869999999999995,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-raven/checkpoint-656/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.41200000000000003,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-raven/checkpoint-656/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.40510000000000007,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-raven/checkpoint-656/stats.json"
+        }
+      ]
+    },
+    "hop2/filtered-dataset-dpoints-only-lora-8/eval-raven/latest": {
+      "hop": "hop2",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.40696666666666664,
+      "std": 0.0070741312776434065,
+      "se": 0.004084251597430172,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.017573116284448756,
+      "lower_bound": 0.3893935503822179,
+      "upper_bound": 0.4245397829511154,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop2",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.41119999999999995,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-raven/checkpoint-656/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.4109,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-raven/checkpoint-656/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-656",
+          "mean": 0.39880000000000004,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-raven/checkpoint-656/stats.json"
+        }
+      ]
+    },
+    "hop2/filtered-dataset-lora-8/eval-raven/latest": {
+      "hop": "hop2",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.4106,
+      "std": 0.00284780617317966,
+      "se": 0.0016441816606851548,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.007074342710463317,
+      "lower_bound": 0.4035256572895367,
+      "upper_bound": 0.41767434271046333,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop2",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.41120000000000007,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-42/filtered-dataset-lora-8-seed-42/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4131,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-43/filtered-dataset-lora-8-seed-43/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4075,
+          "path": "workspace/multihop/gemma/raven/hop2/seed-44/filtered-dataset-lora-8-seed-44/eval-raven/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop3/filtered-dataset-dpoints-only-inverse-lora-8/eval-raven/latest": {
+      "hop": "hop3",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.4610999999999999,
+      "std": 0.010183810681665292,
+      "se": 0.005879625838435642,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.025297988163337084,
+      "lower_bound": 0.43580201183666284,
+      "upper_bound": 0.48639798816333696,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop3",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-636",
+          "mean": 0.47209999999999996,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-raven/checkpoint-636/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-636",
+          "mean": 0.45199999999999996,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-raven/checkpoint-636/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-640",
+          "mean": 0.45919999999999994,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-raven/checkpoint-640/stats.json"
+        }
+      ]
+    },
+    "hop3/filtered-dataset-dpoints-only-lora-8/eval-raven/latest": {
+      "hop": "hop3",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.3851333333333333,
+      "std": 0.013359016929899235,
+      "se": 0.007712832020586092,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.03318563774706256,
+      "lower_bound": 0.35194769558627076,
+      "upper_bound": 0.4183189710803959,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop3",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-636",
+          "mean": 0.3871,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-raven/checkpoint-636/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-636",
+          "mean": 0.37089999999999995,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-raven/checkpoint-636/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-640",
+          "mean": 0.39740000000000003,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-raven/checkpoint-640/stats.json"
+        }
+      ]
+    },
+    "hop3/filtered-dataset-lora-8/eval-raven/latest": {
+      "hop": "hop3",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.46113333333333334,
+      "std": 0.002173323108360428,
+      "se": 0.0012547686816479272,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.005398833893229683,
+      "lower_bound": 0.45573449944010364,
+      "upper_bound": 0.46653216722656304,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop3",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4636,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-42/filtered-dataset-lora-8-seed-42/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.45949999999999996,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-43/filtered-dataset-lora-8-seed-43/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop3",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4603,
+          "path": "workspace/multihop/gemma/raven/hop3/seed-44/filtered-dataset-lora-8-seed-44/eval-raven/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop4/filtered-dataset-dpoints-only-inverse-lora-8/eval-raven/latest": {
+      "hop": "hop4",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.461,
+      "std": 0.005538050198400144,
+      "se": 0.0031973947728319834,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.013757279347241708,
+      "lower_bound": 0.44724272065275833,
+      "upper_bound": 0.4747572793472417,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop4",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.4547,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-raven/checkpoint-596/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.4632,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-raven/checkpoint-596/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.46509999999999996,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-raven/checkpoint-596/stats.json"
+        }
+      ]
+    },
+    "hop4/filtered-dataset-dpoints-only-lora-8/eval-raven/latest": {
+      "hop": "hop4",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.32159999999999994,
+      "std": 0.02068646900754209,
+      "se": 0.011943338450087278,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.051388037783952914,
+      "lower_bound": 0.27021196221604704,
+      "upper_bound": 0.37298803778395284,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop4",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.34369999999999995,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-raven/checkpoint-596/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.3184,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-raven/checkpoint-596/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-596",
+          "mean": 0.30269999999999997,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-raven/checkpoint-596/stats.json"
+        }
+      ]
+    },
+    "hop4/filtered-dataset-lora-8/eval-raven/latest": {
+      "hop": "hop4",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-raven",
+      "checkpoint": "latest",
+      "mean": 0.449,
+      "std": 0.005708765190476814,
+      "se": 0.003295957119462154,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.014181358897015271,
+      "lower_bound": 0.43481864110298474,
+      "upper_bound": 0.4631813588970153,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop4",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.4425,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-42/filtered-dataset-lora-8-seed-42/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.45319999999999994,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-43/filtered-dataset-lora-8-seed-43/eval-raven/checkpoint-668/stats.json"
+        },
+        {
+          "hop": "hop4",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-raven",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.45130000000000003,
+          "path": "workspace/multihop/gemma/raven/hop4/seed-44/filtered-dataset-lora-8-seed-44/eval-raven/checkpoint-668/stats.json"
+        }
+      ]
+    }
+  }
+}
