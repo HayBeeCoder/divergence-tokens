@@ -930,6 +930,240 @@
           "path": "workspace/multihop/qwen/panda-chain-mode-full/hop6/seed-44/filtered-dataset-lora-8-seed-44/eval-panda/checkpoint-668/stats.json"
         }
       ]
+    },
+    "hop7/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/latest": {
+      "hop": "hop7",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.2414,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop7",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-536",
+          "mean": 0.2414,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop7/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-panda/checkpoint-536/stats.json"
+        }
+      ]
+    },
+    "hop7/filtered-dataset-dpoints-only-lora-8/eval-panda/latest": {
+      "hop": "hop7",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.38500000000000006,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop7",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-536",
+          "mean": 0.38500000000000006,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop7/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-panda/checkpoint-536/stats.json"
+        }
+      ]
+    },
+    "hop7/filtered-dataset-lora-8/eval-panda/latest": {
+      "hop": "hop7",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.2526,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop7",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.2526,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop7/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop8/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/latest": {
+      "hop": "hop8",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.26599999999999996,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop8",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-536",
+          "mean": 0.26599999999999996,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop8/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-panda/checkpoint-536/stats.json"
+        }
+      ]
+    },
+    "hop8/filtered-dataset-dpoints-only-lora-8/eval-panda/latest": {
+      "hop": "hop8",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.34910000000000013,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop8",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-536",
+          "mean": 0.34910000000000013,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop8/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-panda/checkpoint-536/stats.json"
+        }
+      ]
+    },
+    "hop8/filtered-dataset-lora-8/eval-panda/latest": {
+      "hop": "hop8",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.2418,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop8",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.2418,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop8/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/checkpoint-668/stats.json"
+        }
+      ]
+    },
+    "hop9/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/latest": {
+      "hop": "hop9",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.3061,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop9",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-544",
+          "mean": 0.3061,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop9/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-panda/checkpoint-544/stats.json"
+        }
+      ]
+    },
+    "hop9/filtered-dataset-dpoints-only-lora-8/eval-panda/latest": {
+      "hop": "hop9",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.3369,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop9",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-544",
+          "mean": 0.3369,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop9/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-panda/checkpoint-544/stats.json"
+        }
+      ]
+    },
+    "hop9/filtered-dataset-lora-8/eval-panda/latest": {
+      "hop": "hop9",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "latest",
+      "mean": 0.2777,
+      "std": 0.0,
+      "se": 0.0,
+      "t_critical": null,
+      "margin_error": null,
+      "lower_bound": null,
+      "upper_bound": null,
+      "n_seeds": 1,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop9",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "checkpoint-668",
+          "mean": 0.2777,
+          "path": "workspace/multihop/qwen/panda-chain-mode-full/hop9/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/checkpoint-668/stats.json"
+        }
+      ]
     }
   }
 }

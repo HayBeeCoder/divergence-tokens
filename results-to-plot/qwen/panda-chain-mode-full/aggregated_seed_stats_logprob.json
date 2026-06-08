@@ -1,0 +1,298 @@
+
+  {
+    "metadata": {
+      "parent": "workspace/multihop/qwen/panda",
+      "metric": "mean_log_p_target",
+      "confidence": 0.95,
+      "checkpoint_policy": "lineage_depth",
+      "n_point_estimates": 33
+    },
+    "groups": {},
+    "logprob_metadata": {
+      "parent": "workspace/multihop/qwen/panda",
+      "confidence": 0.95,
+      "checkpoint_policy": "lineage_depth",
+      "n_point_estimates": 33
+    },
+    "logprob_groups": {
+      "hop1/filtered-dataset-dpoints-only-lora-8/eval-panda/base": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "base",
+        "mean_log_p_target": -16.73375,
+        "std_log_p_target": 0.0,
+        "se_log_p_target": 0.0,
+        "t_critical": 4.302652729696142,
+        "error_log_p_target": 0.0,
+        "lower_log_p_target": -16.73750,
+        "upper_log_p_target": -16.73000,
+        "n_seeds": 3,
+        "confidence": 0.95
+      },
+      "hop1/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/base": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "base",
+        "mean_log_p_target": -16.73375,
+        "std_log_p_target": 0.0,
+        "se_log_p_target": 0.0,
+        "t_critical": 4.302652729696142,
+        "error_log_p_target": 0.0,
+        "lower_log_p_target": -16.73750,
+        "upper_log_p_target": -16.73000,
+        "n_seeds": 3,
+        "confidence": 0.95
+      },
+      "hop1/filtered-dataset-lora-8/eval-panda/base": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "base",
+        "mean_log_p_target": -16.73375,
+        "std_log_p_target": 0.0,
+        "se_log_p_target": 0.0,
+        "t_critical": 4.302652729696142,
+        "error_log_p_target": 0.0,
+        "lower_log_p_target": -16.73750,
+        "upper_log_p_target": -16.73000,
+        "n_seeds": 3,
+        "confidence": 0.95
+      },
+      "hop0/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-0": {
+        "hop": "hop0",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-0",
+        "mean_log_p_target": -15.68,
+        "lower_log_p_target": -15.68,
+        "upper_log_p_target": -15.68,
+        "n_seeds": 1
+      },
+      "hop1/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-1": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-1",
+        "mean_log_p_target": -15.54,
+        "lower_log_p_target": -16.35,
+        "upper_log_p_target": -14.72,
+        "n_seeds": 3
+      },
+      "hop2/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-2": {
+        "hop": "hop2",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-2",
+        "mean_log_p_target": -15.50,
+        "lower_log_p_target": -16.01,
+        "upper_log_p_target": -14.99,
+        "n_seeds": 3
+      },
+      "hop3/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-3": {
+        "hop": "hop3",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-3",
+        "mean_log_p_target": -15.88,
+        "lower_log_p_target": -16.48,
+        "upper_log_p_target": -15.28,
+        "n_seeds": 3
+      },
+      "hop4/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-4": {
+        "hop": "hop4",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-4",
+        "mean_log_p_target": -15.98,
+        "lower_log_p_target": -16.56,
+        "upper_log_p_target": -15.40,
+        "n_seeds": 3
+      },
+      "hop5/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-5": {
+        "hop": "hop5",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-5",
+        "mean_log_p_target": -16.04,
+        "lower_log_p_target": -16.22,
+        "upper_log_p_target": -15.86,
+        "n_seeds": 3
+      },
+      "hop6/filtered-dataset-dpoints-only-lora-8/eval-panda/depth-6": {
+        "hop": "hop6",
+        "train_mode": "filtered-dataset-dpoints-only-lora-8",
+        "mode_label": "FT div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-6",
+        "mean_log_p_target": -16.10,
+        "lower_log_p_target": -17.32,
+        "upper_log_p_target": -14.88,
+        "n_seeds": 3
+      },
+      "hop0/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-0": {
+        "hop": "hop0",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-0",
+        "mean_log_p_target": -14.55,
+        "lower_log_p_target": -14.55,
+        "upper_log_p_target": -14.55,
+        "n_seeds": 1
+      },
+      "hop1/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-1": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-1",
+        "mean_log_p_target": -16.68,
+        "lower_log_p_target": -20.60,
+        "upper_log_p_target": -12.76,
+        "n_seeds": 3
+      },
+      "hop2/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-2": {
+        "hop": "hop2",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-2",
+        "mean_log_p_target": -16.88,
+        "lower_log_p_target": -17.46,
+        "upper_log_p_target": -16.33,
+        "n_seeds": 3
+      },
+      "hop3/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-3": {
+        "hop": "hop3",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-3",
+        "mean_log_p_target": -17.18,
+        "lower_log_p_target": -17.47,
+        "upper_log_p_target": -16.89,
+        "n_seeds": 3
+      },
+      "hop4/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-4": {
+        "hop": "hop4",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-4",
+        "mean_log_p_target": -17.05,
+        "lower_log_p_target": -17.28,
+        "upper_log_p_target": -16.83,
+        "n_seeds": 3
+      },
+      "hop5/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-5": {
+        "hop": "hop5",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-5",
+        "mean_log_p_target": -17.04,
+        "lower_log_p_target": -17.27,
+        "upper_log_p_target": -16.80,
+        "n_seeds": 3
+      },
+      "hop6/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/depth-6": {
+        "hop": "hop6",
+        "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+        "mode_label": "FT w/o div-tokens",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-6",
+        "mean_log_p_target": -16.98,
+        "lower_log_p_target": -18.92,
+        "upper_log_p_target": -15.06,
+        "n_seeds": 3
+      },
+      "hop0/filtered-dataset-lora-8/eval-panda/depth-0": {
+        "hop": "hop0",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-0",
+        "mean_log_p_target": -14.42,
+        "lower_log_p_target": -15.95,
+        "upper_log_p_target": -12.90,
+        "n_seeds": 3
+      },
+      "hop1/filtered-dataset-lora-8/eval-panda/depth-1": {
+        "hop": "hop1",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-1",
+        "mean_log_p_target": -16.73,
+        "lower_log_p_target": -17.45,
+        "upper_log_p_target": -16.01,
+        "n_seeds": 3
+      },
+      "hop2/filtered-dataset-lora-8/eval-panda/depth-2": {
+        "hop": "hop2",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-2",
+        "mean_log_p_target": -16.85,
+        "lower_log_p_target": -17.11,
+        "upper_log_p_target": -16.59,
+        "n_seeds": 3
+      },
+      "hop3/filtered-dataset-lora-8/eval-panda/depth-3": {
+        "hop": "hop3",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-3",
+        "mean_log_p_target": -17.02,
+        "lower_log_p_target": -17.58,
+        "upper_log_p_target": -16.46,
+        "n_seeds": 3
+      },
+      "hop4/filtered-dataset-lora-8/eval-panda/depth-4": {
+        "hop": "hop4",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-4",
+        "mean_log_p_target": -17.01,
+        "lower_log_p_target": -17.66,
+        "upper_log_p_target": -16.36,
+        "n_seeds": 3
+      },
+      "hop5/filtered-dataset-lora-8/eval-panda/depth-5": {
+        "hop": "hop5",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-5",
+        "mean_log_p_target": -17.21,
+        "lower_log_p_target": -17.98,
+        "upper_log_p_target": -16.44,
+        "n_seeds": 3
+      },
+      "hop6/filtered-dataset-lora-8/eval-panda/depth-6": {
+        "hop": "hop6",
+        "train_mode": "filtered-dataset-lora-8",
+        "mode_label": "FT",
+        "eval_name": "eval-panda",
+        "checkpoint": "depth-6",
+        "mean_log_p_target": -16.96,
+        "lower_log_p_target": -17.74,
+        "upper_log_p_target": -16.18,
+        "n_seeds": 3
+      }
+    }
+  }

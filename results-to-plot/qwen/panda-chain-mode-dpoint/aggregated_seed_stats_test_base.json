@@ -1,0 +1,319 @@
+{
+  "metadata": {
+    "parent": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda",
+    "metric": "mean",
+    "confidence": 0.95,
+    "checkpoint_policy": "base",
+    "n_point_estimates": 21
+  },
+  "groups": {
+    "hop0/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/base": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.17096666666666663,
+      "std": 0.001457166199626285,
+      "se": 0.0008412952976082597,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.0036198015087347065,
+      "lower_bound": 0.16734686515793193,
+      "upper_bound": 0.17458646817540133,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1696,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1725,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1708,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop0/filtered-dataset-dpoints-only-lora-8/eval-panda/base": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.17076666666666665,
+      "std": 0.004483674088661374,
+      "se": 0.0025886504420471945,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.011138063890703485,
+      "lower_bound": 0.15962860277596316,
+      "upper_bound": 0.18190473055737014,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.17490000000000003,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.166,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1714,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop0/filtered-dataset-lora-8/eval-panda/base": {
+      "hop": "hop0",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.1675333333333333,
+      "std": 0.003982880029995031,
+      "se": 0.002299516857467616,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.009894022483765332,
+      "lower_bound": 0.15763931084956798,
+      "upper_bound": 0.17742735581709865,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop0",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1666,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1641,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-43/filtered-dataset-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop0",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.17189999999999997,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop0/seed-44/filtered-dataset-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-dpoints-only-inverse-lora-8/eval-panda/base": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.16993333333333335,
+      "std": 0.002909180869821119,
+      "se": 0.001679616358312533,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.007226805908935713,
+      "lower_bound": 0.16270652742439765,
+      "upper_bound": 0.17716013924226906,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1702,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-42/filtered-dataset-dpoints-only-inverse-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.16690000000000005,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-43/filtered-dataset-dpoints-only-inverse-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-inverse-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1727,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-44/filtered-dataset-dpoints-only-inverse-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-dpoints-only-lora-8/eval-panda/base": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-dpoints-only-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.17013333333333333,
+      "std": 0.0028378395538390193,
+      "se": 0.0016384274303259253,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.007049584255500878,
+      "lower_bound": 0.16308374907783246,
+      "upper_bound": 0.1771829175888342,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1696,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-42/filtered-dataset-dpoints-only-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1732,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-43/filtered-dataset-dpoints-only-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-dpoints-only-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.16760000000000003,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-44/filtered-dataset-dpoints-only-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop1/filtered-dataset-lora-8/eval-panda/base": {
+      "hop": "hop1",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.16826666666666668,
+      "std": 0.003007213549672415,
+      "se": 0.001736215552414059,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.007470332585935246,
+      "lower_bound": 0.16079633408073143,
+      "upper_bound": 0.17573699925260192,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop1",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.17170000000000002,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.16699999999999998,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-43/filtered-dataset-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop1",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.16610000000000003,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop1/seed-44/filtered-dataset-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    },
+    "hop2/filtered-dataset-lora-8/eval-panda/base": {
+      "hop": "hop2",
+      "train_mode": "filtered-dataset-lora-8",
+      "eval_name": "eval-panda",
+      "checkpoint": "base",
+      "mean": 0.16979999999999998,
+      "std": 0.0015132745950421423,
+      "se": 0.0008736894948054028,
+      "t_critical": 4.302652729696142,
+      "margin_error": 0.0037591824897313096,
+      "lower_bound": 0.16604081751026867,
+      "upper_bound": 0.1735591824897313,
+      "n_seeds": 3,
+      "confidence": 0.95,
+      "point_estimates": [
+        {
+          "hop": "hop2",
+          "seed": "42",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.17149999999999999,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop2/seed-42/filtered-dataset-lora-8-seed-42/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "43",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.16930000000000003,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop2/seed-43/filtered-dataset-lora-8-seed-43/eval-panda/base/stats.json"
+        },
+        {
+          "hop": "hop2",
+          "seed": "44",
+          "train_mode": "filtered-dataset-lora-8",
+          "eval_name": "eval-panda",
+          "checkpoint": "base",
+          "mean": 0.1686,
+          "path": "/home/elisha_aims_ac_za/divergence-tokens/workspace/multihop/qwen/panda/hop2/seed-44/filtered-dataset-lora-8-seed-44/eval-panda/base/stats.json"
+        }
+      ]
+    }
+  }
+}
